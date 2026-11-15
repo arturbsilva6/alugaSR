@@ -26,3 +26,7 @@ Somente dados sintéticos nos protótipos e testes. Nunca fazer commit de creden
 
 ## Estado dos testes
 O primeiro workflow verifica apenas a estrutura documental e regras mínimas de Git. **Não equivale a CI de aplicação, testes de backend, segurança implementada ou homologação acadêmica.**
+
+## Referência visual em implementação (FE-002)
+
+A branch de Design System propõe tokens CSS, estilos-base e uma [vitrine de componentes](frontend/design-system.html), com [decisões e pendências registradas](docs/development/design-system.md). Essa página é demonstrativa e não oferece busca de imóveis, autenticação ou anúncios reais. A identidade visual final depende da aprovação da paleta e da incorporação do logotipo original.
