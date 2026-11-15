@@ -118,7 +118,7 @@
 .pagination { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-3); margin-block: var(--space-8); }
 .pagination [aria-current="page"] { background: var(--color-surface-muted); color: var(--color-text); border-color: var(--color-border-control); }
 .pagination .button { min-width: var(--control-min-height); }
-.page-empty { padding: var(--space-12); }
+.page-empty { grid-column: 1/-1; padding: var(--space-12); }
 #results-count { font-weight: var(--font-weight-bold); }
 
 .detail-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(16rem, .85fr); align-items: start; gap: var(--space-8); }
