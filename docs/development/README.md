@@ -14,3 +14,9 @@ Este repositório está em preparação. O workflow `governance.yml` verifica ar
 
 ## Rastreabilidade
 Use ID nas issues e títulos de PRs; inclua requisito, decisão, dependência, testes executados e evidências. Não registrar informações pessoais sensíveis ou dados reais no repositório público.
+
+## Design System (MVP-003 / FE-002)
+
+A implementação inicial dos tokens e componentes visuais está documentada em [design-system.md](design-system.md). A vitrine local é `frontend/design-system.html` e funciona apenas como demonstração, sem dados reais ou integração com API.
+
+A paleta ainda depende da homologação UI-02 e o logo original está pendente (UI-01). Não considerar a vitrine como frontend funcional ou como prova completa de acessibilidade.
