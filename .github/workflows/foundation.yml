@@ -1,0 +1,27 @@
+name: Foundation Node checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  node-foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Install from lockfile (no app dependencies yet)
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check JavaScript syntax
+        run: npm run lint
+      - name: Run foundation tests
+        run: npm test
