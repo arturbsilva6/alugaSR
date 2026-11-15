@@ -9,8 +9,8 @@ const preview = readFileSync("frontend/design-system.html", "utf8");
 const placeholder = readFileSync("frontend/index.html", "utf8");
 
 function color(name) {
-  const m = tokens.match(new RegExp(\`--\${name}:\\s*(#[0-9a-fA-F]{6})\\s*;\`));
-  assert.ok(m, \`Token obrigatório ausente: \${name}\`);
+  const m = tokens.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})\\s*;`));
+  assert.ok(m, `Token obrigatório ausente: ${name}`);
   return m[1];
 }
 function linear(c) {
@@ -31,13 +31,13 @@ test("todos os tokens utilizados existem e não há nomes duplicados", () => {
   assert.ok(names.length > 35);
   assert.equal(new Set(names).size, names.length);
   for (const match of (base + main).matchAll(/var\(\s*(--[\w-]+)/g)) {
-    assert.ok(names.includes(match[1]), \`Token não declarado: \${match[1]}\`);
+    assert.ok(names.includes(match[1]), `Token não declarado: ${match[1]}`);
   }
 });
 
 test("somente tokens.css define cores hexadecimais", () => {
   for (const [name, contents] of [["base.css", base], ["main.css", main]]) {
-    assert.doesNotMatch(contents, /#[0-9a-fA-F]{3,8}\b/, \`Cor isolada em \${name}\`);
+    assert.doesNotMatch(contents, /#[0-9a-fA-F]{3,8}\b/, `Cor isolada em ${name}`);
   }
   assert.match(main, /@import url\("\.\/tokens\.css"\)/);
   assert.match(main, /@import url\("\.\/base\.css"\)/);
@@ -62,7 +62,7 @@ test("pares críticos atendem no mínimo 4.5:1 para texto comum", () => {
   ];
   for (const [foreground, background] of combinations) {
     const ratio = contrast(color(foreground), color(background));
-    assert.ok(ratio >= 4.5, \`\${foreground} sobre \${background}: \${ratio.toFixed(2)}:1\`);
+    assert.ok(ratio >= 4.5, `${foreground} sobre ${background}: ${ratio.toFixed(2)}:1`);
   }
 });
 
