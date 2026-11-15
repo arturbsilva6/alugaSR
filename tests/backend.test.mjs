@@ -64,3 +64,25 @@ test("Porta inválida falha explicitamente", () => {
 test("Produção sem banco não inicializa silenciosamente", () => {
   assert.throws(() => readRuntimeConfig({ NODE_ENV: "production" }), /DATABASE_URL obrigatória/);
 });
+
+test("JSON inválido recebe erro seguro e requestId", async () => {
+  const r = await request(createApp(), "/api/v1/health", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: '{"senha":"segredo",'
+  });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.error.code, "INVALID_JSON");
+  assert.doesNotMatch(JSON.stringify(r.body), /segredo/);
+  assert.ok(r.body.error.requestId);
+});
+
+test("Limite de 32kb é aplicado a corpos JSON", async () => {
+  const r = await request(createApp(), "/api/v1/health", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ payload: "a".repeat(40 * 1024) })
+  });
+  assert.equal(r.status, 413);
+  assert.equal(r.body.error.code, "PAYLOAD_TOO_LARGE");
+});
