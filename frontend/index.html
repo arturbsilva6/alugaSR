@@ -11,10 +11,19 @@
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
-  <header class="site-header" aria-label="Cabeçalho">
-    <div class="container">
-      <strong class="brand-name">AlugaSR</strong>
-      <span class="brand-note">Projeto acadêmico • logo original pendente</span>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+        <span class="brand-name">AlugaSR</span>
+        <span class="site-brand__subline">São Roque, SP • logotipo pendente</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="./index.html" aria-current="page">Início</a></li>
+          <li><a class="site-nav__link" href="./design-system.html">Cores e fontes</a></li>
+          <li><a class="site-nav__link" href="./componentes.html">Componentes</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
   <main id="conteudo" class="container">
@@ -28,6 +37,15 @@
       </div>
     </section>
   </main>
-  <footer class="container"><small>AlugaSR — estrutura acadêmica <span id="ano"></span></small></footer>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p><small>AlugaSR — estrutura acadêmica · <span id="ano"></span></small></p>
+      <nav class="site-footer__links" aria-label="Links de rodapé">
+        <a href="./index.html">Início</a>
+        <a href="./design-system.html">Design System</a>
+        <a href="./componentes.html">Componentes</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>
