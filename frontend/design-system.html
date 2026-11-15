@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Biblioteca visual demonstrativa do AlugaSR. Nenhuma oferta ou serviço está disponível aqui.">
+  <title>AlugaSR — Design System (demonstração)</title>
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <header class="site-header">
+    <div class="container">
+      <span class="brand-name">AlugaSR</span>
+      <span class="brand-note">Prévia de componentes • não é um portal ativo</span>
+    </div>
+  </header>
+  <main id="conteudo" class="container">
+    <div class="preview-intro">
+      <p class="eyebrow">FE-002 / MVP-003 • São Roque, SP</p>
+      <h1>Design System do AlugaSR</h1>
+      <p>Biblioteca técnica para comparar cores, tipografia, controles e espaçamentos antes da implementação das telas do MVP.</p>
+      <div class="notice" role="note">
+        <strong>Ambiente demonstrativo.</strong> A marca é representada apenas por texto até recebermos o arquivo original da logo aprovada. Cores e fontes ainda dependem de homologação; não existem imóveis ou cadastros reais nesta página.
+      </div>
+    </div>
+
+    <section aria-labelledby="cores">
+      <h2 id="cores" class="preview-heading">Cores e superfícies</h2>
+      <div class="preview-grid">
+        <article class="card preview-stack"><div class="swatch swatch--brand" aria-hidden="true"></div><h3>Vermelho da marca</h3><p class="swatch-caption">#E30613 • proposta da Documentação Mestre</p></article>
+        <article class="card preview-stack"><div class="swatch swatch--action" aria-hidden="true"></div><h3>Vermelho de ação</h3><p class="swatch-caption">#B42318 • referência visual v1.3.2, provisória</p></article>
+        <article class="card preview-stack"><div class="swatch swatch--yellow" aria-hidden="true"></div><h3>Amarelo de apoio</h3><p class="swatch-caption">#FFC83D • textos escuros sobre amarelo</p></article>
+        <article class="card preview-stack"><div class="swatch swatch--ink" aria-hidden="true"></div><h3>Texto principal</h3><p class="swatch-caption">#171717 • leitura em fundo claro</p></article>
+        <article class="card preview-stack"><div class="swatch swatch--page" aria-hidden="true"></div><h3>Fundo de página</h3><p class="swatch-caption">#F7F7F5 • superfície neutra</p></article>
+        <article class="card preview-stack"><div class="swatch swatch--surface" aria-hidden="true"></div><h3>Cards</h3><p class="swatch-caption">#FFFFFF • blocos informativos</p></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="componentes">
+      <h2 id="componentes" class="preview-heading">Componentes de referência</h2>
+      <div class="preview-grid">
+        <article class="card preview-stack">
+          <h3>Ações</h3>
+          <p>Botões com área mínima de 44 px, contraste e foco visível.</p>
+          <div class="preview-row">
+            <a class="button button--primary" href="#formularios">Ver campos</a>
+            <a class="button button--secondary" href="./index.html">Página inicial</a>
+          </div>
+          <span class="chip">Chip informativo • exemplo</span>
+        </article>
+        <article class="card preview-stack" id="formularios">
+          <h3>Formulários</h3>
+          <div class="preview-form">
+            <div class="field">
+              <label class="field__label" for="bairro-exemplo">Bairro (exemplo)</label>
+              <input class="field__control" id="bairro-exemplo" type="text" placeholder="Digite um bairro (não envia dados)" aria-describedby="campo-ajuda">
+              <small class="field__hint" id="campo-ajuda">Componente visual. Nenhuma informação é enviada ou armazenada.</small>
+            </div>
+            <div class="field">
+              <label class="field__label" for="tipo-exemplo">Tipo de imóvel</label>
+              <select class="field__control" id="tipo-exemplo"><option>Selecione…</option><option>Casa (fictício)</option><option>Apartamento (fictício)</option></select>
+            </div>
+          </div>
+        </article>
+        <article class="card preview-stack">
+          <h3>Estados informativos</h3>
+          <div class="notice" role="note">Atenção: dados fictícios, sem anúncios disponíveis.</div>
+          <div class="notice notice--success" role="note">Exemplo de confirmação visual.</div>
+          <div class="notice notice--error" role="note">Exemplo de mensagem de erro, sem interação real.</div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="observacoes" class="card">
+      <h2 id="observacoes">Limites da demonstração</h2>
+      <p>Esta vitrine existe somente para testar a consistência visual da Etapa 2. A Home, filtros e detalhes públicos serão implementados depois, com dados sintéticos e regras da Documentação Mestre. Não representa conformidade WCAG homologada nem liberação para uso com dados reais.</p>
+    </section>
+    <p class="preview-fineprint">Referências: Documentação Mestre, seções 10, 33–36; issue MVP-003 / FE-002.</p>
+  </main>
+  <footer class="container"><small>AlugaSR • Prévia técnica acadêmica</small></footer>
+</body>
+</html>
