@@ -11,7 +11,7 @@
     "dev": "node --env-file-if-exists=.env --watch backend/src/server.js",
     "start": "node --env-file-if-exists=.env backend/src/server.js",
     "lint": "node scripts/check-syntax.mjs",
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test",
     "db:validate": "prisma validate",
     "db:status": "prisma migrate status",
     "check": "npm run lint && npm test && npm run db:validate"
