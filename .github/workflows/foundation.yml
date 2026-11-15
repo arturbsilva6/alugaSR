@@ -12,16 +12,41 @@ permissions:
 jobs:
   node-foundation:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: alugasr_test
+          POSTGRES_PASSWORD: ci_ficticia_sem_dados_reais
+          POSTGRES_DB: alugasr_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U alugasr_test -d alugasr_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://alugasr_test:ci_ficticia_sem_dados_reais@127.0.0.1:5432/alugasr_test
+      TEST_DATABASE_URL: postgresql://alugasr_test:ci_ficticia_sem_dados_reais@127.0.0.1:5432/alugasr_test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node LTS
+      - name: Setup Node LTS 26
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Install from lockfile (no app dependencies yet)
-        run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Check JavaScript syntax
+      - name: Temporary lockfile generation for transition
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          echo "ALUGASR_LOCKFILE_BEGIN"
+          cat package-lock.json
+          echo "ALUGASR_LOCKFILE_END"
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Validate JavaScript syntax
         run: npm run lint
-      - name: Run foundation tests
+      - name: Run unit and integration tests
         run: npm test
+      - name: Validate Prisma schema (no tables/migrations yet)
+        run: npm run db:validate

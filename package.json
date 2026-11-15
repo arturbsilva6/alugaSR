@@ -3,13 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Fundação técnica do projeto de extensão AlugaSR",
+  "description": "MVP do AlugaSR — base Express e PostgreSQL",
   "engines": {
     "node": ">=26 <27"
   },
   "scripts": {
-    "lint": "node --check frontend/scripts/main.js && node --check tests/foundation.test.mjs",
-    "test": "node --test",
-    "check": "npm run lint && npm test"
+    "dev": "node --env-file-if-exists=.env --watch backend/src/server.js",
+    "start": "node --env-file-if-exists=.env backend/src/server.js",
+    "lint": "node scripts/check-syntax.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "db:validate": "prisma validate",
+    "db:status": "prisma migrate status",
+    "check": "npm run lint && npm test && npm run db:validate"
+  },
+  "dependencies": {
+    "express": "5.3.0",
+    "helmet": "8.1.0",
+    "pg": "8.16.3",
+    "dotenv": "17.2.3"
+  },
+  "devDependencies": {
+    "prisma": "7.10.1"
   }
 }
