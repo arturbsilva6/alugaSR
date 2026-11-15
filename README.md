@@ -30,3 +30,7 @@ O primeiro workflow verifica apenas a estrutura documental e regras mínimas de 
 ## Referência visual em implementação (FE-002)
 
 A branch de Design System propõe tokens CSS, estilos-base e uma [vitrine de componentes](frontend/design-system.html), com [decisões e pendências registradas](docs/development/design-system.md). Essa página é demonstrativa e não oferece busca de imóveis, autenticação ou anúncios reais. A identidade visual final depende da aprovação da paleta e da incorporação do logotipo original.
+
+## Componentes de interface (FE-003)
+
+A vitrine [componentes.html](frontend/componentes.html) demonstra cabeçalho, navegação, rodapé, campos e estados da interface. É **estática e sem dados reais**, não uma Home de anúncios. Veja os [critérios de implementação](docs/development/ui-components.md).
