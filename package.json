@@ -1,0 +1,15 @@
+{
+  "name": "alugasr",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fundação técnica do projeto de extensão AlugaSR",
+  "engines": {
+    "node": ">=26 <27"
+  },
+  "scripts": {
+    "lint": "node --check frontend/scripts/main.js && node --check tests/foundation.test.mjs",
+    "test": "node --test",
+    "check": "npm run lint && npm test"
+  }
+}
