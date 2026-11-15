@@ -1,0 +1,35 @@
+name: Governance checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  repository-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate repository baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          test -s README.md
+          test -s CONTRIBUTING.md
+          test -s SECURITY.md
+          test -s .env.example
+          test -s .github/PULL_REQUEST_TEMPLATE.md
+          test -s .github/ISSUE_TEMPLATE/feature.yml
+          test -s .github/ISSUE_TEMPLATE/bug.yml
+          test -s docs/development/README.md
+          if git ls-files | grep -E '(^|/)\.env($|\.)' | grep -v -E '(^|/)\.env\.example$'; then
+            echo 'Erro: arquivo .env indevidamente versionado'
+            exit 1
+          fi
+          echo 'Baseline documental validada; CI de aplicação será acrescentada com MVP-001/002.'
