@@ -1,0 +1,44 @@
+name: Funcionalidade / melhoria
+description: Nova entrega rastreável do AlugaSR
+title: "[MVP-XXX] "
+labels: []
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Objetivo e valor
+      description: Problema e resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo e fora do escopo
+    validations:
+      required: true
+  - type: input
+    id: trace
+    attributes:
+      label: Requisitos e decisões
+      placeholder: RF-xx, DEC-xxx, FE-xxx, seção 37
+    validations:
+      required: true
+  - type: textarea
+    id: deps
+    attributes:
+      label: Dependências e bloqueios
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Critérios de aceite verificáveis
+      placeholder: Dado / Quando / Então
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Testes e evidências previstos
+    validations:
+      required: true

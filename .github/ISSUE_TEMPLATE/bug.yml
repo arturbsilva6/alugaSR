@@ -1,0 +1,38 @@
+name: Erro / defeito
+description: Reportar problema sem expor dados sensíveis
+title: "[BUG] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "Não inclua dados pessoais, credenciais ou detalhes sensíveis de vulnerabilidades. Para falhas de segurança, consulte SECURITY.md."
+  - type: textarea
+    id: what
+    attributes:
+      label: Resultado observado
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir com dados fictícios
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Ambiente, versão, impacto e evidências sanitizadas
+    validations:
+      required: true
+  - type: textarea
+    id: regression
+    attributes:
+      label: Teste de regressão recomendado
+    validations:
+      required: true
