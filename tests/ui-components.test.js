@@ -110,6 +110,27 @@ test("modal abre, ignora clique redundante, fecha e devolve foco ao acionador", 
   assert.equal(trigger.focused, 1);
 });
 
+test("inicialização idempotente e múltiplos acionadores devolvem o foco correto", () => {
+  const primeiro = new Trigger("dialog-shared");
+  const segundo = new Trigger("dialog-shared");
+  const dialog = new Dialog();
+  const doc = {
+    querySelectorAll: () => [primeiro, segundo],
+    getElementById: id => id === "dialog-shared" ? dialog : null
+  };
+  assert.equal(initDemoDialogs(doc), 2);
+  assert.equal(initDemoDialogs(doc), 0);
+  primeiro.click();
+  assert.equal(dialog.openings, 1);
+  dialog.close();
+  assert.equal(primeiro.focused, 1);
+  segundo.click();
+  assert.equal(dialog.openings, 2);
+  dialog.close();
+  assert.equal(segundo.focused, 1);
+  assert.equal(primeiro.focused, 1);
+});
+
 test("referências inválidas de modal são ignoradas sem erros", () => {
   const invalid = new Trigger("../remote");
   const missing = new Trigger("nao-existe");
