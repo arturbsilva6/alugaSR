@@ -14,7 +14,8 @@
     "test": "node --test",
     "db:validate": "prisma validate",
     "db:status": "prisma migrate status",
-    "check": "npm run lint && npm test && npm run db:validate"
+    "check": "npm run lint && npm test && npm run db:validate",
+    "preview": "node scripts/preview-frontend.mjs"
   },
   "dependencies": {
     "express": "5.3.0",

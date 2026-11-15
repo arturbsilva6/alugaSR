@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Filtros de imóveis fictícios na demonstração acadêmica do AlugaSR.">
+<title>Explorar imóveis — AlugaSR (demonstração)</title>
+<link rel="stylesheet" href="./styles/main.css">
+<script type="module" src="./scripts/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header portal-header">
+  <div class="container site-header__inner">
+    <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+      <span class="brand-name">AlugaSR</span>
+      <span class="site-brand__subline">Aluguéis em São Roque · demonstração</span>
+    </a>
+    <nav class="site-nav portal-nav" aria-label="Navegação principal"><ul class="site-nav__list"><li><a class="site-nav__link" href="./index.html">Início</a></li>
+<li><a class="site-nav__link" href="./imoveis.html" aria-current="page">Imóveis</a></li>
+<li><a class="site-nav__link" href="./como-anunciar.html">Como anunciar</a></li></ul></nav>
+    <a class="button button--secondary" href="./painel.html">Área do anunciante (demo)</a>
+  </div>
+</header>
+<div class="demo-ribbon"><div class="container"><span aria-hidden="true">●</span> SIMULAÇÃO ACADÊMICA · IMÓVEIS, PREÇOS E CONTATOS FICTÍCIOS</div></div>
+<main class="main-shell container" id="conteudo" data-page="results">
+<nav class="breadcrumbs" aria-label="Trilha de navegação"><a href="./index.html">Início</a><span aria-hidden="true">›</span><span aria-current="page">Imóveis</span></nav>
+<section class="page-intro"><p class="eyebrow">CATÁLOGO DE DEMONSTRAÇÃO</p><h1>Encontre seu próximo aluguel</h1>
+<p class="section-description">Pesquise imóveis fictícios em São Roque/SP. A plataforma ainda não disponibiliza ofertas reais.</p></section>
+<div class="results-layout">
+<aside class="filter-panel" aria-label="Filtros de imóveis">
+<form id="search-filters" action="./imoveis.html" method="get">
+<h2>Filtros</h2>
+<div class="field"><label class="field__label" for="f-regiao">Região</label><select id="f-regiao" name="regiao" class="field__control"><option value="">Todas</option><option value="centro">Centro (exemplo)</option><option value="outras">Outras regiões ilustrativas</option></select></div>
+<div class="field"><label class="field__label" for="f-tipo">Tipo de imóvel</label><select id="f-tipo" name="tipo" class="field__control"><option value="">Todos</option><option value="casa">Casa</option><option value="apartamento">Apartamento</option><option value="sobrado">Sobrado</option></select></div>
+<div class="field"><label class="field__label" for="f-preco">Aluguel mensal máximo</label><select id="f-preco" name="ate" class="field__control"><option value="">Qualquer valor</option><option value="1500">Até R$ 1.500</option><option value="2000">Até R$ 2.000</option><option value="3000">Até R$ 3.000</option><option value="4000">Até R$ 4.000</option></select></div>
+<div class="field"><label class="field__label" for="f-quartos">Quartos</label><select id="f-quartos" name="quartos" class="field__control"><option value="">Qualquer quantidade</option><option value="1">1 ou mais</option><option value="2">2 ou mais</option><option value="3">3 ou mais</option><option value="4">4 ou mais</option></select></div>
+<div class="filter-actions"><button class="button button--primary button--block" type="submit">Aplicar filtros</button><a class="button button--secondary button--block" href="./imoveis.html">Limpar filtros</a></div>
+</form>
+</aside>
+<section class="results-area" aria-label="Resultados de imóveis fictícios">
+<div class="result-meta"><div><h2>Imóveis de exemplo</h2><p id="results-count" role="status" aria-live="polite">Carregando exemplos...</p></div>
+<div class="field"><label class="field__label" for="f-ordem">Ordenar por</label><select id="f-ordem" class="field__control"><option value="recentes">Ordem ilustrativa</option><option value="menor-preco">Menor aluguel</option><option value="maior-preco">Maior aluguel</option></select></div></div>
+<div id="results-grid" class="property-grid" aria-live="polite"></div>
+<div id="results-pagination" class="pagination" role="navigation" aria-label="Paginação dos resultados"></div>
+</section>
+</div></main>
+<footer class="site-footer"><div class="container site-footer__inner">
+  <p><small>AlugaSR · São Roque/SP · protótipo com dados artificiais · <span id="ano"></span></small></p>
+  <nav class="site-footer__links" aria-label="Links de rodapé">
+    <a href="./index.html">Início</a><a href="./imoveis.html">Explorar imóveis</a><a href="./como-anunciar.html">Como anunciar</a>
+    <a href="./seguranca.html">Segurança e privacidade</a><a href="./design-system.html">Design System</a><a href="./componentes.html">Componentes</a>
+  </nav>
+</div></footer>
+</body></html>

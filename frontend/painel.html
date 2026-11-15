@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Painel de cadastro simulado de anúncios do AlugaSR, sem autenticação ou dados reais.">
+<title>Painel de demonstração — AlugaSR (demonstração)</title>
+<link rel="stylesheet" href="./styles/main.css">
+<script type="module" src="./scripts/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header portal-header">
+  <div class="container site-header__inner">
+    <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+      <span class="brand-name">AlugaSR</span>
+      <span class="site-brand__subline">Aluguéis em São Roque · demonstração</span>
+    </a>
+    <nav class="site-nav portal-nav" aria-label="Navegação principal"><ul class="site-nav__list"><li><a class="site-nav__link" href="./index.html">Início</a></li>
+<li><a class="site-nav__link" href="./imoveis.html">Imóveis</a></li>
+<li><a class="site-nav__link" href="./como-anunciar.html">Como anunciar</a></li></ul></nav>
+    <a class="button button--secondary" href="./painel.html">Área do anunciante (demo)</a>
+  </div>
+</header>
+<div class="demo-ribbon"><div class="container"><span aria-hidden="true">●</span> SIMULAÇÃO ACADÊMICA · IMÓVEIS, PREÇOS E CONTATOS FICTÍCIOS</div></div>
+<main class="main-shell container" id="conteudo" data-page="partner">
+<nav class="breadcrumbs" aria-label="Trilha de navegação"><a href="./index.html">Início</a><span aria-hidden="true">›</span><a href="./como-anunciar.html">Como anunciar</a><span aria-hidden="true">›</span><span aria-current="page">Painel de demonstração</span></nav>
+<section class="page-intro"><p class="eyebrow">ÁREA DO ANUNCIANTE · SIMULAÇÃO</p><h1 id="partner-title">Painel demonstrativo</h1>
+<p class="page-lead">Conheça as etapas de rascunho e envio para análise. Esta página não possui autenticação nem conexão com a base de dados.</p></section>
+<div class="notice" role="note"><strong>Somente dados artificiais.</strong> Não insira endereços exatos, contatos pessoais ou fotografias reais. Alterações se perdem ao recarregar e não são publicadas.</div>
+<section class="page-section" aria-labelledby="partner-subtitle"><div class="partner-kpis" aria-label="Indicadores fictícios">
+<div class="card"><strong id="kpi-all">0</strong><small>Anúncios de exemplo</small></div><div class="card"><strong id="kpi-drafts">0</strong><small>Rascunhos simulados</small></div><div class="card"><strong id="kpi-pending">0</strong><small>Em análise simulada</small></div></div></section>
+<div class="partner-layout">
+<section class="card stack" aria-labelledby="partner-list-title"><div class="section-titlebar"><div><h2 id="partner-list-title">Carteira demonstrativa</h2><p>Os itens abaixo nunca aparecem na área pública.</p></div></div>
+<div id="partner-table-region" role="region" aria-label="Lista de rascunhos fictícios" aria-live="polite">
+<table class="partner-table"><thead><tr><th scope="col">Imóvel de exemplo</th><th scope="col">Status</th><th scope="col">Ações</th></tr></thead><tbody id="partner-rows"></tbody></table>
+</div></section>
+<section class="card partner-form" aria-labelledby="partner-form-title">
+<h2 id="partner-form-title">Novo rascunho (simulado)</h2>
+<p class="form-hint">Teste o formulário com nomes e valores inventados. O botão de envio apenas atualiza o status na página.</p>
+<form id="partner-form" class="partner-form" novalidate>
+<div class="field"><label class="field__label" for="partner-name">Título ilustrativo</label><input class="field__control" id="partner-name" name="title" maxlength="100" placeholder="Ex.: Casa fictícia com quintal"></div>
+<div class="field"><label class="field__label" for="partner-type">Tipo de imóvel</label><select class="field__control" id="partner-type" name="type"><option value="">Selecione</option><option value="casa">Casa</option><option value="apartamento">Apartamento</option><option value="sobrado">Sobrado</option></select></div>
+<div class="field"><label class="field__label" for="partner-region">Região ilustrativa</label><select class="field__control" id="partner-region" name="region"><option value="">Selecione</option><option value="centro">Centro (exemplo)</option><option value="outras">Outras regiões</option></select></div>
+<div class="field"><label class="field__label" for="partner-rent">Aluguel mensal (R$)</label><input class="field__control" id="partner-rent" name="rent" type="number" inputmode="decimal" min="100" max="50000" step="1" placeholder="Ex.: 1800"></div>
+<div class="field"><label class="field__label" for="partner-condo">Condomínio mensal (R$)</label><input class="field__control" id="partner-condo" name="condominium" type="number" inputmode="decimal" min="0" step="1" placeholder="Deixe vazio se desconhecido"></div>
+<div class="field"><label class="field__label" for="partner-iptu">IPTU mensal (R$)</label><input class="field__control" id="partner-iptu" name="iptu" type="number" inputmode="decimal" min="0" step="1" placeholder="Deixe vazio se desconhecido"></div>
+<div class="field"><label class="field__label" for="partner-description">Descrição ilustrativa</label><textarea class="field__control" id="partner-description" name="description" maxlength="1000" placeholder="Inclua ao menos 20 caracteres fictícios..."></textarea></div>
+<div class="status-message"><p><strong>Total mensal estimado:</strong> <span id="partner-total">A confirmar</span><br><small>O valor só é somado quando todas as taxas são conhecidas e mensais.</small></p></div>
+<div class="field"><label class="field__label" for="partner-photo">Fotos (desativado na demonstração)</label><input class="field__control" id="partner-photo" type="file" accept="image/*" disabled><small class="field__hint">Nenhum arquivo é enviado ou armazenado aqui.</small></div>
+<div class="partner-form__actions"><button class="button button--secondary" type="button" id="save-draft">Salvar rascunho</button><button class="button button--primary" type="button" id="submit-review">Enviar para análise</button></div>
+<div id="partner-feedback" class="feedback" role="status" aria-live="polite"></div>
+</form></section>
+</div></main>
+<footer class="site-footer"><div class="container site-footer__inner">
+  <p><small>AlugaSR · São Roque/SP · protótipo com dados artificiais · <span id="ano"></span></small></p>
+  <nav class="site-footer__links" aria-label="Links de rodapé">
+    <a href="./index.html">Início</a><a href="./imoveis.html">Explorar imóveis</a><a href="./como-anunciar.html">Como anunciar</a>
+    <a href="./seguranca.html">Segurança e privacidade</a><a href="./design-system.html">Design System</a><a href="./componentes.html">Componentes</a>
+  </nav>
+</div></footer>
+</body></html>
