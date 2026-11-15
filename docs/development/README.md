@@ -20,3 +20,7 @@ Use ID nas issues e títulos de PRs; inclua requisito, decisão, dependência, t
 A implementação inicial dos tokens e componentes visuais está documentada em [design-system.md](design-system.md). A vitrine local é `frontend/design-system.html` e funciona apenas como demonstração, sem dados reais ou integração com API.
 
 A paleta ainda depende da homologação UI-02 e o logo original está pendente (UI-01). Não considerar a vitrine como frontend funcional ou como prova completa de acessibilidade.
+
+## FE-003 — Shell e componentes reutilizáveis
+
+A etapa de [componentes de interface](ui-components.md) utiliza o Design System FE-002, com navegação responsiva e uma [vitrine HTML](../../frontend/componentes.html) de testes. Não implementa funcionalidades de aluguel nem altera as pendências UI-01/UI-02.
