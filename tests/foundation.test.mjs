@@ -16,7 +16,9 @@ test("página inicial declara estado de desenvolvimento sem anúncios reais", ()
   const html = readFileSync("frontend/index.html", "utf8");
   assert.match(html, /lang="pt-BR"/);
   assert.match(html, /<main\s+id="conteudo"/);
-  assert.match(html, /Ainda não há anúncios, pesquisa, login ou serviços disponíveis/);
+  assert.match(html, /SIMULAÇÃO ACADÊMICA/);
+  assert.match(html, /IMÓVEIS, PREÇOS E CONTATOS FICTÍCIOS/);
+  assert.match(html, /name="robots" content="noindex, nofollow"/);
   assert.match(html, /href="#conteudo"/);
 });
 
