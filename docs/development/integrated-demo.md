@@ -53,3 +53,7 @@ Acesse `http://127.0.0.1:8080/index.html`. Esse comando não publica o site na i
 5. Testes humanos, acessibilidade, conformidade e controles LGPD antes do uso de dados verdadeiros.
 
 **Nunca** promover o estado sintético do painel como autorização real. Nenhuma foto ou documento privado deve ser enviado a esta demonstração.
+
+### Atalho oficial de pré-visualização
+
+Na raiz, rode `npm ci` e depois `npm run preview`; abra `http://127.0.0.1:4173/`. O servidor é local (`127.0.0.1`), sem dependências externas de prévia e com bloqueio de acesso a arquivos fora da pasta `frontend/`. A prévia inclui as páginas fictícias do catálogo e do painel. Pare o processo com Ctrl+C. A existência de cabeçalhos de segurança não representa auditoria de produção.
