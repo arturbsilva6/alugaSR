@@ -16,8 +16,8 @@ const tokens = readFileSync("frontend/styles/tokens.css", "utf8");
 test("shell semântico compartilhado em três páginas", () => {
   for (const [path, html] of htmls) {
     assert.match(html, /<html lang="pt-BR">/, path);
-    assert.match(html, /<header class="site-header">/, path);
-    assert.match(html, /<nav class="site-nav" aria-label="Navegação principal">/, path);
+    assert.match(html, /<header class="site-header(?: portal-header)?"*/, path);
+    assert.match(html, /<nav class="site-nav(?: portal-nav)?" aria-label="Navegação principal">/, path);
     assert.match(html, /<main id="conteudo"/, path);
     assert.match(html, /<footer class="site-footer">/, path);
     assert.match(html, /class="skip-link" href="#conteudo"/, path);
