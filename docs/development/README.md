@@ -24,3 +24,7 @@ A paleta ainda depende da homologação UI-02 e o logo original está pendente (
 ## FE-003 — Shell e componentes reutilizáveis
 
 A etapa de [componentes de interface](ui-components.md) utiliza o Design System FE-002, com navegação responsiva e uma [vitrine HTML](../../frontend/componentes.html) de testes. Não implementa funcionalidades de aluguel nem altera as pendências UI-01/UI-02.
+
+## Demonstração integrada (FE-004 a FE-006)
+
+Consulte [o guia da demonstração integrada](integrated-demo.md) para as telas públicas, filtros, custos e painel sintético, além dos comandos locais e critérios pendentes. O conteúdo não é aplicação de produção.
