@@ -34,3 +34,7 @@ A branch de Design System propõe tokens CSS, estilos-base e uma [vitrine de com
 ## Componentes de interface (FE-003)
 
 A vitrine [componentes.html](frontend/componentes.html) demonstra cabeçalho, navegação, rodapé, campos e estados da interface. É **estática e sem dados reais**, não uma Home de anúncios. Veja os [critérios de implementação](docs/development/ui-components.md).
+
+## Prévia integrada do MVP com dados fictícios
+
+As páginas `frontend/index.html`, `imoveis.html`, `imovel.html`, `como-anunciar.html` e `painel.html` mostram as jornadas do AlugaSR em uma **demonstração acadêmica sem serviços reais**. O catálogo e os rascunhos são sintéticos, e não há login, pagamento, publicação ou upload funcional. Leia [instruções e limites da demonstração](docs/development/integrated-demo.md).
