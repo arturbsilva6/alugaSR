@@ -1,0 +1,9 @@
+// MVP-001: somente configuração, sem models ou migrations.
+// Entidades de domínio serão implementadas no MVP-007.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
