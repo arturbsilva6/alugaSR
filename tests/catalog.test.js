@@ -104,6 +104,6 @@ test("modelo não promove publicação automática nem autorização no cliente"
   const js = readFileSync("frontend/scripts/partner.js", "utf8");
   assert.match(js, /sem autenticação, localStorage, upload ou API/);
   assert.match(js, /"Em análise"/);
-  assert.doesNotMatch(js, /fetch\(|localStorage|sessionStorage/);
+  assert.doesNotMatch(js, /\bfetch\(|\blocalStorage\.(?:setItem|getItem)|\bsessionStorage\.(?:setItem|getItem)/);
   assert.doesNotMatch(js, /\.innerHTML\s*=/);
 });
