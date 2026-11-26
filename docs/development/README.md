@@ -28,3 +28,8 @@ A etapa de [componentes de interface](ui-components.md) utiliza o Design System 
 ## Demonstração integrada (FE-004 a FE-006)
 
 Consulte [o guia da demonstração integrada](integrated-demo.md) para as telas públicas, filtros, custos e painel sintético, além dos comandos locais e critérios pendentes. O conteúdo não é aplicação de produção.
+
+## MVP-007 a MVP-015 — implementação conectada
+
+- [Matriz de status](STATUS_IMPLEMENTACAO.md) · [Execução local](setup-local.md) · [Segurança e riscos](seguranca-e-riscos.md) · [Roteiro de apresentação](roteiro-apresentacao.md)
+- [API](../api/README.md) · [Banco](../database/README.md) · [ADR-010 (PROPOSTA)](../adr/ADR-010-decisoes-de-implementacao-mvp.md)
