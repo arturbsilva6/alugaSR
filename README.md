@@ -2,7 +2,7 @@
 
 Plataforma web hiperlocal para busca e divulgação de imóveis para aluguel em **São Roque/SP**, desenvolvida como projeto de extensão acadêmica.
 
-> **Status:** planejamento e fundação do repositório. Não existe aplicação funcional, sistema de login, banco conectado ou serviço de imóveis disponível para uso público nesta etapa.
+> **Status:** prévia pública acadêmica com **busca e painel totalmente sintéticos**. As páginas de demonstração funcionam sem banco conectado ou autenticação; **não existem anúncios reais, login de produção, upload ou serviços disponíveis ao público** nesta etapa.
 
 ## Escopo do MVP acadêmico
 1. Home e pesquisa responsivas por valor de aluguel, cômodos e localização.
@@ -25,8 +25,25 @@ HTML, CSS e JavaScript no frontend; Node.js + Express na API; PostgreSQL + Prism
 Somente dados sintéticos nos protótipos e testes. Nunca fazer commit de credenciais, arquivos `.env` reais, documentos pessoais ou fotos privadas. A ativação com dados reais requer segurança, LGPD, backups/restauração e validações externas descritas na documentação mestre.
 
 ## Estado dos testes
-O primeiro workflow verifica apenas a estrutura documental e regras mínimas de Git. **Não equivale a CI de aplicação, testes de backend, segurança implementada ou homologação acadêmica.**
+A CI atual verifica governança, sintaxe JavaScript, testes de frontend/backend, conexão PostgreSQL de teste e Prisma validate. **Aprovação do CI não equivale a testes de usabilidade, segurança de produção ou homologação acadêmica.**
 
 ## Referência visual em implementação (FE-002)
 
 A branch de Design System propõe tokens CSS, estilos-base e uma [vitrine de componentes](frontend/design-system.html), com [decisões e pendências registradas](docs/development/design-system.md). Essa página é demonstrativa e não oferece busca de imóveis, autenticação ou anúncios reais. A identidade visual final depende da aprovação da paleta e da incorporação do logotipo original.
+
+## Componentes de interface (FE-003)
+
+A vitrine [componentes.html](frontend/componentes.html) demonstra cabeçalho, navegação, rodapé, campos e estados da interface. É **estática e sem dados reais**, não uma Home de anúncios. Veja os [critérios de implementação](docs/development/ui-components.md).
+
+## Prévia integrada do MVP com dados fictícios
+
+As páginas `frontend/index.html`, `imoveis.html`, `imovel.html`, `como-anunciar.html` e `painel.html` mostram as jornadas do AlugaSR em uma **demonstração acadêmica sem serviços reais**. O catálogo e os rascunhos são sintéticos, e não há login, pagamento, publicação ou upload funcional. Leia [instruções e limites da demonstração](docs/development/integrated-demo.md).
+
+### Abrir o protótipo no navegador
+
+```bash
+npm ci
+npm run preview
+```
+
+Acesse **http://127.0.0.1:4173/**. O servidor serve apenas `frontend/` em localhost, sem iniciar a API ou acessar imóveis reais. Para encerrar, pressione Ctrl+C.

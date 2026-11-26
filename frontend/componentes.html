@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Demonstração estática dos componentes de interface do AlugaSR, sem anúncios nem serviços reais.">
+  <title>Componentes de interface — AlugaSR</title>
+  <link rel="stylesheet" href="./styles/main.css">
+  <script type="module" src="./scripts/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+        <span class="brand-name">AlugaSR</span>
+        <span class="site-brand__subline">São Roque, SP • logotipo pendente</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="./index.html">Início</a></li>
+          <li><a class="site-nav__link" href="./design-system.html">Cores e fontes</a></li>
+          <li><a class="site-nav__link" href="./componentes.html" aria-current="page">Componentes</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo" class="container">
+    <section class="page-section stack" aria-labelledby="titulo">
+      <p class="eyebrow">FE-003 / MVP-004 • Ambiente demonstrativo</p>
+      <h1 id="titulo">Componentes reutilizáveis</h1>
+      <p class="page-lead">Estrutura de cabeçalho, navegação, rodapé e padrões de interface que serão usados nas próximas páginas do AlugaSR.</p>
+      <div class="notice" role="note"><strong>Sem serviços disponíveis.</strong> Tudo nesta página é fictício. Os botões e campos demonstram aparência e acessibilidade, não realizam busca, cadastro ou operações reais.</div>
+    </section>
+
+    <section class="page-section" aria-labelledby="acoes">
+      <h2 id="acoes">Botões e chips</h2>
+      <p class="section-description">Ações com alvos de toque de pelo menos 44 px, estados de foco e contraste. A abertura de modal é a única demonstração interativa abaixo.</p>
+      <div class="card stack stack--lg">
+        <div class="inline-items">
+          <button class="button button--primary" type="button" data-dialog-target="exemplo-dialog">Abrir modal de exemplo</button>
+          <a class="button button--secondary" href="#estados">Ver estados</a>
+          <button class="button button--ghost" type="button" disabled>Desabilitado</button>
+        </div>
+        <div class="inline-items" aria-label="Categorias meramente ilustrativas">
+          <span class="chip">Casa</span>
+          <span class="chip">Apartamento</span>
+          <span class="chip">São Roque/SP</span>
+          <button class="chip chip--interactive" type="button" aria-pressed="true" disabled>Filtro ilustrativo</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="campos">
+      <h2 id="campos">Campos de formulário</h2>
+      <p class="section-description">Controles demonstrativos com rótulos associados. Eles não pertencem a um formulário de envio.</p>
+      <div class="layout-grid">
+        <div class="card stack">
+          <div class="field">
+            <label class="field__label" for="bairro-demo">Localização (exemplo)</label>
+            <input id="bairro-demo" class="field__control" type="text" placeholder="Digite um bairro fictício" autocomplete="off" aria-describedby="bairro-demo-ajuda">
+            <small class="field__hint" id="bairro-demo-ajuda">Este campo não consulta nem armazena dados.</small>
+          </div>
+          <div class="field">
+            <label class="field__label" for="tipo-demo">Tipo de imóvel (exemplo)</label>
+            <select id="tipo-demo" class="field__control">
+              <option value="">Selecione uma opção</option>
+              <option value="casa">Casa</option>
+              <option value="apartamento">Apartamento</option>
+            </select>
+          </div>
+        </div>
+        <div class="card stack">
+          <div class="field">
+            <label class="field__label" for="invalido-demo">Campo com erro demonstrativo</label>
+            <input id="invalido-demo" class="field__control" type="text" aria-invalid="true" aria-describedby="erro-demo" value="Exemplo inválido" readonly>
+            <small id="erro-demo" class="field__error">Mensagem de erro exemplificativa, sem validação real.</small>
+          </div>
+          <div class="field">
+            <label class="field__label" for="bloqueado-demo">Campo desabilitado</label>
+            <input id="bloqueado-demo" class="field__control" type="text" value="Indisponível nesta etapa" disabled>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="cartoes">
+      <h2 id="cartoes">Cards e avisos</h2>
+      <p class="section-description">Blocos fluidos e reutilizáveis, sem fotografias, preços ou propriedades anunciadas.</p>
+      <div class="layout-grid">
+        <article class="card demo-card">
+          <p class="eyebrow">Componente base</p>
+          <h3>Card informativo</h3>
+          <p>Espaçamento constante, borda discreta e conteúdo que se ajusta sem sobreposições em telas estreitas.</p>
+          <a class="button button--secondary" href="#estados">Ver mensagens</a>
+        </article>
+        <article class="card demo-card">
+          <p class="eyebrow">Exemplo de estrutura</p>
+          <h3>Conteúdo de exemplo</h3>
+          <p>Esse card é apenas uma demonstração visual. Nenhum imóvel ou usuário está representado aqui.</p>
+          <span class="chip">Demonstração</span>
+        </article>
+      </div>
+      <div class="layout-grid page-section">
+        <div class="notice" role="note"><strong>Atenção.</strong> Etapa de desenvolvimento, sem publicação de anúncios.</div>
+        <div class="notice notice--success" role="note"><strong>Sucesso (exemplo).</strong> Apenas um estilo visual, sem operação executada.</div>
+        <div class="notice notice--error" role="note"><strong>Erro (exemplo).</strong> Uma ação futura deverá informar como tentar novamente.</div>
+      </div>
+    </section>
+
+    <section class="page-section stack" aria-labelledby="estados" id="estados">
+      <h2>Estados: carregamento, vazio e erro</h2>
+      <div class="layout-grid">
+        <div class="card stack">
+          <h3>Carregando (exemplo)</h3>
+          <div class="loading-indicator" role="status" aria-live="polite">
+            <span class="loading-indicator__spinner" aria-hidden="true"></span>
+            <span>Simulação de carregamento</span>
+          </div>
+        </div>
+        <div class="empty-state">
+          <h3>Nenhum item para exibir</h3>
+          <p>Exemplo de estado vazio. Não há pesquisa ativa ou anúncios reais nesta vitrine.</p>
+        </div>
+        <div class="status-message status-message--error" role="status">
+          <p><strong>Falha simulada.</strong> O sistema deverá indicar como recuperar um erro quando houver integração real.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="status-message" role="note"><p><strong>Limites desta etapa:</strong> ainda não implementamos Home com busca, autenticação, favorito, conversa, banco ou API de anúncios. A marca e as fontes finais permanecem pendentes de homologação.</p></div>
+    </section>
+  </main>
+
+  <dialog class="modal" id="exemplo-dialog" aria-labelledby="modal-titulo" aria-describedby="modal-descricao">
+    <div class="modal__content">
+      <p class="eyebrow">Modal nativo • demonstração</p>
+      <h2 id="modal-titulo">Janela de exemplo</h2>
+      <p id="modal-descricao">A janela pode ser fechada pelo botão abaixo ou pressionando Esc. Ela não solicita login, não envia formulários e devolve o foco ao botão que a abriu.</p>
+      <form method="dialog" class="modal__actions">
+        <button class="button button--primary" type="submit">Fechar janela</button>
+      </form>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p><small>AlugaSR — protótipo acadêmico · <span id="ano"></span></small></p>
+      <nav class="site-footer__links" aria-label="Links de rodapé">
+        <a href="./index.html">Início</a>
+        <a href="./design-system.html">Design System</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
