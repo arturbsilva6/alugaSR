@@ -5,7 +5,7 @@ const SAFE = new Set(["GET", "HEAD", "OPTIONS"]);
 
 // Defesa adicional contra CSRF: requisições com Origin/Referer de terceiros são recusadas.
 export function enforceSameOrigin(allowedOrigins) {
-  const allowed = new Set(allowedOrigins);
+  const allowed = { has: origin => allowedOrigins.includes(origin) };
   return (req, _res, next) => {
     if (SAFE.has(req.method)) return next();
     const origin = req.get("origin");

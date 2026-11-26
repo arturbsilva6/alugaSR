@@ -9,13 +9,14 @@ import { createLocalStorage } from "../../backend/src/storage/localStorage.js";
 export async function startApi(prisma, overrides = {}) {
   const storageDir = await mkdtemp(join(tmpdir(), "alugasr-test-"));
   const base = readRuntimeConfig({ NODE_ENV: "test", SESSION_SECRET: "segredo-de-teste-sintetico-com-32-caracteres", APP_ORIGINS: "http://app.alugasr.test" });
-  const config = { ...base, storage: { driver: "local", localDir: storageDir },
+  const config = { ...base, appOrigins: [...base.appOrigins], storage: { driver: "local", localDir: storageDir },
     rateLimits: { ...base.rateLimits, loginPerIpPer15Min: 10_000, loginPerIpPerMinute: 10_000 }, ...overrides };
   const storage = createLocalStorage(storageDir);
   const database = { prisma, ping: async () => true, close: async () => {} };
   const server = createApp({ database, config, storage }).listen(0, "127.0.0.1");
   await new Promise((resolve, reject) => { server.once("listening", resolve); server.once("error", reject); });
   const url = `http://127.0.0.1:${server.address().port}`;
+  config.appOrigins.push(url); // permite o próprio frontend servido pela API (E2E)
   return {
     url, config, storage, storageDir,
     client: () => createClient(url),

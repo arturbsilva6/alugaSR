@@ -2,6 +2,7 @@
 @import url("./base.css");
 @import url("./components.css");
 @import url("./portal.css");
+@import url("./app.css");
 
 /* Página provisória e vitrine local de FE-002: sem funções de busca reais. */
 .site-header {
