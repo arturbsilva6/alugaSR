@@ -36,11 +36,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Install dependencies
+      - name: Install dependencies (lockfile, gera Prisma Client)
         run: npm ci --no-audit --no-fund
       - name: Validate JavaScript syntax
         run: npm run lint
-      - name: Run unit and integration tests
-        run: npm test
-      - name: Validate Prisma schema (no tables/migrations yet)
+      - name: Scan versioned files for secrets
+        run: npm run security:secrets
+      - name: Audit production dependencies (high/critical bloqueiam)
+        run: npm run security:audit
+      - name: Validate Prisma schema
         run: npm run db:validate
+      - name: Apply migrations to isolated CI database (migrate deploy)
+        run: npm run db:migrate
+      - name: Check schema drift between migrations and schema.prisma
+        run: npm run db:drift
+      - name: Run synthetic seed twice (idempotency)
+        env:
+          STORAGE_LOCAL_DIR: ${{ runner.temp }}/alugasr-storage
+        run: |
+          npm run db:seed
+          npm run db:seed
+      - name: Run unit, integration and contract tests
+        run: npm test
