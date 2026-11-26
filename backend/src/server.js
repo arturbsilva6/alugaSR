@@ -3,10 +3,13 @@ import { readRuntimeConfig } from "./config/env.js";
 import { createDatabase } from "./repositories/database.js";
 
 const config = readRuntimeConfig();
+if (config.sessionSecretEphemeral) {
+  console.warn("SESSION_SECRET ausente: usando segredo efêmero (somente desenvolvimento; sessões expiram ao reiniciar).");
+}
 const database = createDatabase(config.databaseUrl);
-const app = createApp({ database });
+const app = createApp({ database, config });
 const server = app.listen(config.port, config.host, () => {
-  console.info("API AlugaSR iniciada (/api/v1/health, /api/v1/ready)");
+  console.info(`API AlugaSR em http://${config.host}:${config.port} (/api/v1/health, /api/v1/ready)${config.demoMode ? " — MODO DEMONSTRAÇÃO, dados sintéticos" : ""}`);
 });
 
 async function shutdown(signal) {
