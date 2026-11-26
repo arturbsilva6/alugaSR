@@ -50,7 +50,7 @@ Legenda de estado (sem inflar maturidade):
 - `npm ci` (Node 26.13.1, npm 11.20.0): OK; `postinstall` gera o Prisma Client 7.10.1.
 - `npm run lint`: 75 arquivos com sintaxe válida.
 - `npm run security:secrets`: nenhum achado; detecção validada com segredo plantado (removido).
-- `npm run security:audit`: 0 vulnerabilidades em dependências de produção.
+- `npm run security:audit`: o CI do PR #14 detectou 3 avisos altos (GHSA-7589-6fvf-x4pw, `effect` via Prisma 7.10.1); corrigido com `overrides` para `effect@3.22.5` (ADR-010, item 14). Após a correção: 0 vulnerabilidades.
 - `npm run db:validate` / `db:migrate` / `db:drift`: válido, aplicado, sem diferença.
 - `npm run db:seed` executado 2×: mesmas contagens (idempotente).
 - `npm test` com PostgreSQL 16 local isolado: **106 testes, 106 aprovados, 0 falhas, 0 ignorados**.

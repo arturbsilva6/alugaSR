@@ -20,6 +20,8 @@
 12. **Elegibilidade:** envio e publicação exigem `status_verificacao`/`status` = `verificado` do titular. Como o processo real de verificação (EXT-03) não existe, o status é atribuído apenas ao seed sintético; nenhum selo público é exibido.
 13. **Frontend:** mesma origem da API (Express serve `frontend/`), cookie `SameSite=Strict`; modo offline com fixtures do PR #12 quando a API não responde.
 
+14. **Dependência transitiva vulnerável (26/11/2026):** o `npm audit` do CI bloqueou o aviso alto GHSA-7589-6fvf-x4pw (ReDoS em `effect` ≤ 3.22.0), trazido por `prisma@7.10.1` → `@prisma/config` (que fixa `effect@3.20.0`). Não há patch na linha 7 do Prisma e a linha 8 ainda é RC/major. Adotado `overrides: { "effect": "3.22.5" }` (mesma major, versão corrigida), validado com `prisma validate/generate/migrate deploy/migrate diff`, seed, 106 testes e E2E. Remover o override quando o Prisma publicar versão com `effect` corrigido.
+
 ## Consequências
 
 - Nenhuma dessas escolhas habilita dados reais (Gate C1 continua bloqueado).
