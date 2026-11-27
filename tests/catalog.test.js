@@ -15,7 +15,8 @@ test("toda a amostra é fictícia, finita e sem endereço completo, coordenadas 
     assert.ok(Number.isSafeInteger(item.rent));
     assert.ok(item.rent > 0);
     assert.ok(["centro", "outras"].includes(item.regionKey));
-    assert.ok(["casa.svg", "apartamento.svg", "sobrado.svg"].includes(item.image));
+    // UI-03: fotos ilustrativas licenciadas (CREDITOS-IMAGENS.md) em vez de desenhos.
+    assert.match(item.image, /^fotos\/[a-z-]+\.webp$/);
     assert.ok(existsSync("frontend/assets/" + item.image));
     for (const key of ["address", "street", "latitude", "longitude", "phone", "email", "ownerId"]) {
       assert.equal(item[key], undefined, "Dado privado não permitido em " + item.id + ": " + key);

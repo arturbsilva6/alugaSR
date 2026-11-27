@@ -35,3 +35,12 @@ fieldset.card legend { font-weight: var(--font-weight-semibold); padding-inline:
 .partner-table td:nth-child(3), .partner-table .status-chip { white-space: nowrap; }
 .cost-preview { display: block; }
 .photo-list > li.text-muted { grid-column: 1 / -1; }
+.property-card__credit {
+  position: absolute; right: var(--space-2); bottom: var(--space-2);
+  padding: var(--space-1) var(--space-2); border-radius: var(--radius-pill);
+  background: var(--color-surface); color: var(--color-text-muted); font-size: var(--text-xs);
+}
+/* Galeria no detalhe: a moldura 3:2 vale para a foto principal, não para o bloco com miniaturas. */
+.detail-photo.gallery { aspect-ratio: auto; overflow: visible; background: none; border-radius: 0; }
+.detail-photo.gallery > img { border-radius: var(--radius-xl); }
+.detail-photo.gallery .visual-label { position: static; justify-self: start; }

@@ -5,7 +5,7 @@ import {
 } from "./catalog.js";
 
 const TYPE_LABELS = Object.freeze({ casa: "Casa", apartamento: "Apartamento", sobrado: "Sobrado" });
-const KNOWN_IMAGES = new Set(["casa.svg", "apartamento.svg", "sobrado.svg"]);
+const KNOWN_IMAGES = new Set(["fotos/casa-entardecer.webp", "fotos/predio-apartamentos.webp", "fotos/sala-de-estar.webp", "fotos/cozinha-integrada.webp", "fotos/interior-corredor.webp"]);
 
 function element(doc, tag, className = "", text = null) {
   const node = doc.createElement(tag);
@@ -19,7 +19,7 @@ function appendText(doc, root, tag, className, value) {
   return node;
 }
 function safeImagePath(image) {
-  return "./assets/" + (KNOWN_IMAGES.has(image) ? image : "casa.svg");
+  return "./assets/" + (KNOWN_IMAGES.has(image) ? image : "fotos/casa-entardecer.webp");
 }
 function featuresText(listing) {
   return listing.bedrooms + " quartos · " + listing.bathrooms + " banheiros · " + listing.parking + " vagas";
@@ -34,7 +34,7 @@ export function makePropertyCard(doc, listing, search = "") {
   const photo = element(doc, "div", "property-card__photo");
   const image = element(doc, "img");
   image.src = safeImagePath(listing.image);
-  image.alt = "Ilustração de " + (TYPE_LABELS[listing.type] || "imóvel") + " fictício";
+  image.alt = "Foto ilustrativa de " + (TYPE_LABELS[listing.type] || "imóvel") + " (banco de imagens, não é o imóvel anunciado)";
   image.loading = "lazy";
   image.width = 960;
   image.height = 640;
@@ -153,10 +153,10 @@ export function initDetail(doc = document, win = window) {
   const photo = element(doc, "figure", "detail-photo");
   const image = element(doc, "img");
   image.src = safeImagePath(listing.image);
-  image.alt = "Ilustração do imóvel fictício: " + listing.title;
+  image.alt = "Foto ilustrativa (banco de imagens) para o exemplo: " + listing.title;
   image.width = 960; image.height = 640;
   photo.append(image);
-  const label = appendText(doc, photo, "figcaption", "visual-label", "Imagem ilustrativa — sem fotos reais");
+  const label = appendText(doc, photo, "figcaption", "visual-label", "Foto ilustrativa — não corresponde ao imóvel anunciado");
   left.append(photo);
 
   const features = element(doc, "div", "detail-features");

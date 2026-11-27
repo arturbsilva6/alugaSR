@@ -1,10 +1,10 @@
 // Seed SOMENTE SINTÉTICO e idempotente (Gate C0; seções 28.3, 33.6, 37.11).
-// Nenhum dado pessoal, endereço, telefone ou imóvel real. E-mails usam o domínio
+// Nenhum dado pessoal, endereço, telefone ou imóvel real. Fotos são ilustrativas de banco
+// de imagens com licença registrada em CREDITOS-IMAGENS.md (UI-03). E-mails usam o domínio
 // reservado .test. Bairros são rótulos ilustrativos — o catálogo oficial de
 // São Roque depende de EXT-01 e NÃO é afirmado aqui.
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import sharp from "sharp";
 import { createPrisma } from "../backend/src/db/prisma.js";
 import { hashPassword } from "../backend/src/lib/password.js";
 import { createLocalStorage } from "../backend/src/storage/localStorage.js";
@@ -57,52 +57,71 @@ const users = [
 // Conteúdo derivado das fixtures sintéticas do PR #12 (frontend/scripts/fixtures.js).
 const listings = [
   { key: "demo-001", owner: "agency", status: "publicado", title: "Casa térrea próxima ao centro e serviços (fictícia)", type: "casa", hood: "centro-exemplo",
-    rent: "1850.00", condo: "0.00", iptu: "95.00", bedrooms: 3, bathrooms: 2, parking: 1, area: "92.00", image: "casa", features: ["area-de-servico", "quintal"],
+    rent: "1850.00", condo: "0.00", iptu: "95.00", bedrooms: 3, bathrooms: 2, parking: 1, area: "92.00", photos: ["casa-entardecer", "sala-de-estar", "cozinha-integrada"], features: ["area-de-servico", "quintal"],
     description: "Casa ilustrativa com ambientes integrados e fácil acesso aos serviços da região central. Anúncio FICTÍCIO para demonstração acadêmica: não é uma oferta real." },
   { key: "demo-002", owner: "agency", status: "publicado", title: "Apartamento bem iluminado (fictício)", type: "apartamento", hood: "regiao-ilustrativa-norte",
-    rent: "1650.00", condo: null, iptu: "0.00", bedrooms: 2, bathrooms: 1, parking: 1, area: "64.00", image: "apartamento", features: ["vaga-coberta"],
+    rent: "1650.00", condo: null, iptu: "0.00", bedrooms: 2, bathrooms: 1, parking: 1, area: "64.00", photos: ["sala-de-estar", "predio-apartamentos"], features: ["vaga-coberta"],
     description: "Apartamento fictício com dois dormitórios. O condomínio não foi informado, portanto o total mensal aparece como 'a confirmar'. Não é uma oferta real." },
   { key: "demo-003", owner: "individual", status: "publicado", title: "Sobrado com área externa (fictício)", type: "sobrado", hood: "regiao-ilustrativa-sul",
-    rent: "2850.00", condo: "0.00", iptu: "170.00", bedrooms: 3, bathrooms: 2, parking: 2, area: "130.00", image: "sobrado", features: ["quintal", "varanda", "aceita-pets"],
+    rent: "2850.00", condo: "0.00", iptu: "170.00", bedrooms: 3, bathrooms: 2, parking: 2, area: "130.00", photos: ["casa-entardecer", "interior-corredor", "cozinha-integrada"], features: ["quintal", "varanda", "aceita-pets"],
     description: "Sobrado demonstrativo com dois pavimentos e espaço ao ar livre. Dados sintéticos para testes de interface; não está disponível para locação." },
   { key: "demo-004", owner: "individual", status: "publicado", title: "Casa compacta para começar uma nova fase (fictícia)", type: "casa", hood: "centro-exemplo",
-    rent: "1200.00", condo: "0.00", iptu: null, bedrooms: 1, bathrooms: 1, parking: 0, area: "45.00", image: "casa", features: [],
+    rent: "1200.00", condo: "0.00", iptu: null, bedrooms: 1, bathrooms: 1, parking: 0, area: "45.00", photos: ["casa-entardecer", "cozinha-integrada"], features: [],
     description: "Casa compacta de demonstração para validar filtros por faixa de preço e quantidade de cômodos. Anúncio fictício." },
   { key: "demo-005", owner: "agency", status: "publicado", title: "Apartamento com dois quartos (fictício)", type: "apartamento", hood: "centro-exemplo",
-    rent: "2100.00", condo: "220.00", iptu: "90.00", bedrooms: 2, bathrooms: 2, parking: 1, area: "78.00", image: "apartamento", features: ["area-de-servico", "vaga-coberta", "mobiliado"],
+    rent: "2100.00", condo: "220.00", iptu: "90.00", bedrooms: 2, bathrooms: 2, parking: 1, area: "78.00", photos: ["interior-corredor", "cozinha-integrada", "predio-apartamentos"], features: ["area-de-servico", "vaga-coberta", "mobiliado"],
     description: "Apartamento fictício que ilustra a composição completa de aluguel, condomínio e IPTU quando todos os valores são conhecidos." },
   { key: "demo-006", owner: "agency", status: "publicado", title: "Sobrado para quem busca mais espaço (fictício)", type: "sobrado", hood: "regiao-ilustrativa-norte",
-    rent: "3200.00", condo: "0.00", iptu: "150.00", bedrooms: 4, bathrooms: 3, parking: 2, area: "160.00", image: "sobrado", features: ["quintal", "varanda"],
+    rent: "3200.00", condo: "0.00", iptu: "150.00", bedrooms: 4, bathrooms: 3, parking: 2, area: "160.00", photos: ["casa-entardecer", "sala-de-estar", "interior-corredor"], features: ["quintal", "varanda"],
     description: "Exemplo acadêmico de imóvel amplo. Não é um anúncio publicado por proprietário ou imobiliária real." },
   { key: "demo-007", owner: "agency", status: "em_analise", title: "Kitnet mobiliada aguardando análise (fictícia)", type: "kitnet", hood: "centro-exemplo",
-    rent: "950.00", condo: "80.00", iptu: "0.00", bedrooms: 1, bathrooms: 1, parking: 0, area: "28.00", image: "apartamento", features: ["mobiliado"],
+    rent: "950.00", condo: "80.00", iptu: "0.00", bedrooms: 1, bathrooms: 1, parking: 0, area: "28.00", photos: ["cozinha-integrada", "interior-corredor"], features: ["mobiliado"],
     description: "Anúncio sintético enviado para análise, usado para demonstrar a fila de moderação. Não aparece na busca pública." },
   { key: "demo-008", owner: "agency", status: "rascunho", title: "Rascunho de casa em preparação (fictício)", type: "casa", hood: "regiao-ilustrativa-sul",
-    rent: null, condo: null, iptu: null, bedrooms: null, bathrooms: null, parking: null, area: null, image: null, features: [],
+    rent: null, condo: null, iptu: null, bedrooms: null, bathrooms: null, parking: null, area: null, photos: [], features: [],
     description: null },
   { key: "demo-009", owner: "individual", status: "pausado", title: "Apartamento pausado pelo titular (fictício)", type: "apartamento", hood: "regiao-ilustrativa-sul",
-    rent: "1400.00", condo: "150.00", iptu: "40.00", bedrooms: 2, bathrooms: 1, parking: 1, area: "55.00", image: "apartamento", features: [],
+    rent: "1400.00", condo: "150.00", iptu: "40.00", bedrooms: 2, bathrooms: 1, parking: 1, area: "55.00", photos: ["sala-de-estar", "predio-apartamentos"], features: [],
     description: "Anúncio sintético pausado: não aparece na busca e o link antigo informa indisponibilidade." }
 ];
 
-async function syntheticPhoto(imageKey, propertyId, index) {
-  const photoId = seedId(`foto:${propertyId}:${index}`);
-  const existing = await prisma.fotoImovel.findUnique({ where: { id: photoId }, select: { id: true } });
-  const svg = await readFile(new URL(`../frontend/assets/${imageKey}.svg`, import.meta.url));
-  // Ilustração original do protótipo v1.3.2 rasterizada (nenhuma fotografia real).
-  const png = await sharp(svg, { density: 144 }).resize({ width: 1200, height: 800, fit: "contain", background: "#F7F7F5" }).png().toBuffer();
-  const processed = await processImage(png, { declaredType: "image/png" });
-  for (const [variant, data] of Object.entries(processed.derived)) {
-    const key = `derived/${photoId}/${variant}.webp`;
-    if (!(await storage.exists(key))) await storage.put(key, data);
-  }
-  if (!(await storage.exists(`originals/${photoId}`))) await storage.put(`originals/${photoId}`, png);
-  if (!existing) {
-    await prisma.fotoImovel.create({ data: {
-      id: photoId, imovelId: propertyId, chaveArmazenamento: `originals/${photoId}`, ordem: index, principal: index === 0,
-      textoAlternativo: "Ilustração fictícia de imóvel (não é fotografia real)", statusProcessamento: "aprovado",
-      mimeTypeValidado: "image/png", tamanhoBytes: BigInt(png.length), hashConteudo: processed.sha256
-    } });
+// Fotos ILUSTRATIVAS de banco de imagens (licença Unsplash, ver CREDITOS-IMAGENS.md):
+// não retratam imóveis reais de São Roque nem os anúncios fictícios. Passam pelo
+// mesmo pipeline de upload (reprocessamento sem metadados) antes de virar derivado.
+const PHOTO_ALT = {
+  "casa-entardecer": "Foto ilustrativa de fachada de casa (banco de imagens, não é o imóvel anunciado)",
+  "predio-apartamentos": "Foto ilustrativa de prédio residencial (banco de imagens, não é o imóvel anunciado)",
+  "sala-de-estar": "Foto ilustrativa de sala de estar (banco de imagens, não é o imóvel anunciado)",
+  "cozinha-integrada": "Foto ilustrativa de cozinha integrada (banco de imagens, não é o imóvel anunciado)",
+  "interior-corredor": "Foto ilustrativa de interior de apartamento (banco de imagens, não é o imóvel anunciado)"
+};
+
+async function syntheticPhotos(names, propertyId) {
+  // Fotos de versões anteriores do seed (ilustrações SVG e ordem antiga) são
+  // retiradas por remoção lógica; fotos enviadas pelo painel não são tocadas.
+  const current = new Set(names.map(name => seedId(`foto-v3:${propertyId}:${name}`)));
+  const legacy = [seedId(`foto:${propertyId}:0`), ...[0, 1, 2].map(i => seedId(`foto-v2:${propertyId}:${i}`))].filter(id => !current.has(id));
+  await prisma.fotoImovel.updateMany({
+    where: { id: { in: legacy }, excluidoEm: null },
+    data: { principal: false, statusProcessamento: "removido", excluidoEm: new Date() }
+  });
+  for (const [index, name] of names.entries()) {
+    const photoId = seedId(`foto-v3:${propertyId}:${name}`);
+    const source = await readFile(new URL(`../frontend/assets/fotos/${name}.webp`, import.meta.url));
+    const processed = await processImage(source, { declaredType: "image/webp" });
+    for (const [variant, data] of Object.entries(processed.derived)) {
+      const key = `derived/${photoId}/${variant}.webp`;
+      if (!(await storage.exists(key))) await storage.put(key, data);
+    }
+    if (!(await storage.exists(`originals/${photoId}`))) await storage.put(`originals/${photoId}`, source);
+    const existing = await prisma.fotoImovel.findUnique({ where: { id: photoId }, select: { id: true } });
+    if (!existing) {
+      await prisma.fotoImovel.create({ data: {
+        id: photoId, imovelId: propertyId, chaveArmazenamento: `originals/${photoId}`, ordem: index, principal: index === 0,
+        textoAlternativo: PHOTO_ALT[name], statusProcessamento: "aprovado",
+        mimeTypeValidado: "image/webp", tamanhoBytes: BigInt(source.length), hashConteudo: processed.sha256
+      } });
+    }
   }
 }
 
@@ -183,7 +202,7 @@ async function main() {
     } });
     await prisma.logAuditoria.create({ data: { atorId: null, acao: "property.create", tipoRecurso: "imovel", recursoId: id, metadados: { para: l.status, origem: "seed_sintetico" } } });
   }
-  for (const l of listings) if (l.image) await syntheticPhoto(l.image, seedId(`imovel:${l.key}`), 0);
+  for (const l of listings) if (l.photos.length) await syntheticPhotos(l.photos, seedId(`imovel:${l.key}`));
 
   const counts = { bairros: await prisma.bairro.count(), usuarios: await prisma.usuario.count(), imoveis: await prisma.imovel.count(), fotos: await prisma.fotoImovel.count() };
   console.info("Seed sintético concluído:", JSON.stringify(counts));

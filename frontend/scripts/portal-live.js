@@ -9,6 +9,7 @@ function liveCard(doc, item, search, demoData) {
   const photo = el(doc, "div", "property-card__photo");
   const src = safePhotoUrl(item.coverPhoto?.urls?.thumb);
   add(photo, el(doc, "img", "", null, { src: src ?? "./assets/casa.svg", alt: src ? (item.coverPhoto.alt || "Foto do imóvel") : "Imóvel sem foto disponível", loading: "lazy", width: 480, height: 320 }));
+  if (demoData && src) add(photo, el(doc, "span", "property-card__credit", "Foto ilustrativa"));
   if (demoData) add(photo, el(doc, "span", "property-card__tag", "EXEMPLO FICTÍCIO"));
   const body = el(doc, "div", "property-card__body");
   const rooms = [item.bedrooms != null && `${item.bedrooms} quarto(s)`, item.bathrooms != null && `${item.bathrooms} banheiro(s)`, item.parkingSpaces != null && `${item.parkingSpaces} vaga(s)`].filter(Boolean).join(" · ");
@@ -96,7 +97,7 @@ function costRow(doc, parent, name, value, extra = "") {
   add(parent, add(el(doc, "div", "cost-row " + extra), el(doc, "span", "", name), el(doc, "strong", "", value)));
 }
 
-function gallery(doc, photos, title) {
+function gallery(doc, photos, title, demo = false) {
   const figure = el(doc, "figure", "detail-photo gallery");
   const main = el(doc, "img", "", null, { width: 1280, height: 853 });
   const caption = el(doc, "figcaption", "visual-label");
@@ -105,7 +106,7 @@ function gallery(doc, photos, title) {
   const show = i => {
     main.src = valid[i].urls.detail;
     main.alt = valid[i].alt || `Foto ${i + 1} do imóvel ${title}`;
-    caption.textContent = `Foto ${i + 1} de ${valid.length}`;
+    caption.textContent = `Foto ${i + 1} de ${valid.length}${demo ? " · ilustrativa, não corresponde ao imóvel" : ""}`;
     thumbs.querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-current", j === i ? "true" : "false"));
   };
   const thumbs = el(doc, "div", "gallery__thumbs", null, { role: "group", "aria-label": "Miniaturas das fotos" });
@@ -147,7 +148,7 @@ export async function initDetailLive(doc, win, meta) {
     el(doc, "h1", "", p.title),
     el(doc, "p", "section-description", `${p.approximateLocation?.neighborhood ?? "Bairro a confirmar"} · localização pública aproximada (bairro)`));
   const left = el(doc, "div", "detail-body");
-  add(left, gallery(doc, p.photos ?? [], p.title));
+  add(left, gallery(doc, p.photos ?? [], p.title, meta.demoData));
   const chips = el(doc, "div", "detail-features");
   for (const t of [p.type?.name, p.bedrooms != null && `${p.bedrooms} quarto(s)`, p.bathrooms != null && `${p.bathrooms} banheiro(s)`,
     p.parkingSpaces != null && `${p.parkingSpaces} vaga(s)`, p.areaM2 && `${p.areaM2.replace(".", ",")} m²`].filter(Boolean)) add(chips, el(doc, "span", "chip", t));
