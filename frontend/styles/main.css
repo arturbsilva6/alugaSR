@@ -1,19 +1,15 @@
 @import url("./tokens.css");
 @import url("./base.css");
+@import url("./components.css");
+@import url("./portal.css");
+@import url("./app.css");
 
 /* Página provisória e vitrine local de FE-002: sem funções de busca reais. */
 .site-header {
   background: var(--color-surface);
   border-bottom: var(--border-width) solid var(--color-border-subtle);
 }
-.site-header .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  padding-block: var(--space-4);
-}
+.site-header .container { padding-block: var(--space-4); }
 .brand-name {
   color: var(--color-brand-black);
   font-family: var(--font-heading);

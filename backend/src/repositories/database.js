@@ -1,20 +1,17 @@
-import pg from "pg";
+import { createPrisma } from "../db/prisma.js";
 
+// Conexão única via Prisma (driver adapter pg). `ping` atende /api/v1/ready.
 export function createDatabase(connectionString) {
-  if (!connectionString) return null;
-  const pool = new pg.Pool({
-    connectionString,
-    max: 5,
-    connectionTimeoutMillis: 2500,
-    idleTimeoutMillis: 10000
-  });
+  const prisma = createPrisma(connectionString);
+  if (!prisma) return null;
   return {
+    prisma,
     async ping() {
-      const { rows } = await pool.query("SELECT 1::int AS status");
+      const rows = await prisma.$queryRaw`SELECT 1::int AS status`;
       return rows[0]?.status === 1;
     },
     async close() {
-      await pool.end();
+      await prisma.$disconnect();
     }
   };
 }

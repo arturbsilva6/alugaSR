@@ -147,3 +147,12 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Armazenamento local de desenvolvimento (fotos sintéticas/originais privados)
+.storage/
+.storage-test/
+# Material de referência local (não versionar)
+.alugasr-context/
+# Relatórios Playwright
+test-results/
+playwright-report/

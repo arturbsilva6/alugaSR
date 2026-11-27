@@ -7,13 +7,23 @@
   <meta name="description" content="Biblioteca visual demonstrativa do AlugaSR. Nenhuma oferta ou serviço está disponível aqui.">
   <title>AlugaSR — Design System (demonstração)</title>
   <link rel="stylesheet" href="./styles/main.css">
+  <script type="module" src="./scripts/main.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
   <header class="site-header">
-    <div class="container">
-      <span class="brand-name">AlugaSR</span>
-      <span class="brand-note">Prévia de componentes • não é um portal ativo</span>
+    <div class="container site-header__inner">
+      <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+        <span class="brand-name">AlugaSR</span>
+        <span class="site-brand__subline">São Roque, SP • logotipo pendente</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="./index.html">Início</a></li>
+          <li><a class="site-nav__link" href="./design-system.html" aria-current="page">Cores e fontes</a></li>
+          <li><a class="site-nav__link" href="./componentes.html">Componentes</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
   <main id="conteudo" class="container">
@@ -79,6 +89,15 @@
     </section>
     <p class="preview-fineprint">Referências: Documentação Mestre, seções 10, 33–36; issue MVP-003 / FE-002.</p>
   </main>
-  <footer class="container"><small>AlugaSR • Prévia técnica acadêmica</small></footer>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p><small>AlugaSR — estrutura acadêmica · <span id="ano"></span></small></p>
+      <nav class="site-footer__links" aria-label="Links de rodapé">
+        <a href="./index.html">Início</a>
+        <a href="./design-system.html">Design System</a>
+        <a href="./componentes.html">Componentes</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>

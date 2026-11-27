@@ -36,11 +36,65 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Install dependencies
+      - name: Install dependencies (lockfile, gera Prisma Client)
         run: npm ci --no-audit --no-fund
       - name: Validate JavaScript syntax
         run: npm run lint
-      - name: Run unit and integration tests
-        run: npm test
-      - name: Validate Prisma schema (no tables/migrations yet)
+      - name: Scan versioned files for secrets
+        run: npm run security:secrets
+      - name: Audit production dependencies (high/critical bloqueiam)
+        run: npm run security:audit
+      - name: Validate Prisma schema
         run: npm run db:validate
+      - name: Apply migrations to isolated CI database (migrate deploy)
+        run: npm run db:migrate
+      - name: Check schema drift between migrations and schema.prisma
+        run: npm run db:drift
+      - name: Run synthetic seed twice (idempotency)
+        env:
+          STORAGE_LOCAL_DIR: ${{ runner.temp }}/alugasr-storage
+        run: |
+          npm run db:seed
+          npm run db:seed
+      - name: Run unit, integration and contract tests
+        run: npm test
+
+  e2e-browser:
+    # Job adicional (não substitui node-foundation). Navegador Chromium via Playwright
+    # instalado apenas no runner (--no-save), sem alterar dependências do projeto.
+    runs-on: ubuntu-latest
+    needs: node-foundation
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: alugasr_test
+          POSTGRES_PASSWORD: ci_ficticia_sem_dados_reais
+          POSTGRES_DB: alugasr_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U alugasr_test -d alugasr_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://alugasr_test:ci_ficticia_sem_dados_reais@127.0.0.1:5432/alugasr_test
+      TEST_DATABASE_URL: postgresql://alugasr_test:ci_ficticia_sem_dados_reais@127.0.0.1:5432/alugasr_test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node LTS 26
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Install Playwright and Chromium (runner only)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Apply migrations
+        run: npm run db:migrate
+      - name: Run browser E2E (synthetic data)
+        run: npm run test:e2e

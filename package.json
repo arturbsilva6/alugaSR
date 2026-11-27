@@ -3,26 +3,42 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "MVP do AlugaSR — base Express e PostgreSQL",
+  "description": "AlugaSR — MVP acadêmico: API Express, PostgreSQL/Prisma e frontend HTML/CSS/JS",
   "engines": {
     "node": ">=26 <27"
   },
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "node --env-file-if-exists=.env --watch backend/src/server.js",
     "start": "node --env-file-if-exists=.env backend/src/server.js",
     "lint": "node scripts/check-syntax.mjs",
     "test": "node --test",
+    "test:e2e": "node --test --test-concurrency=1 e2e/",
     "db:validate": "prisma validate",
+    "db:generate": "prisma generate",
     "db:status": "prisma migrate status",
-    "check": "npm run lint && npm test && npm run db:validate"
+    "db:migrate": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:drift": "prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code",
+    "db:seed": "node --env-file-if-exists=.env prisma/seed.mjs",
+    "security:secrets": "node scripts/scan-secrets.mjs",
+    "security:audit": "npm audit --omit=dev --audit-level=high",
+    "check": "npm run lint && npm run security:secrets && npm test && npm run db:validate",
+    "preview": "node scripts/preview-frontend.mjs"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "7.10.1",
+    "@prisma/client": "7.10.1",
+    "dotenv": "17.2.3",
     "express": "5.3.0",
     "helmet": "8.1.0",
     "pg": "8.16.3",
-    "dotenv": "17.2.3"
+    "sharp": "0.35.5"
   },
   "devDependencies": {
     "prisma": "7.10.1"
+  },
+  "overrides": {
+    "effect": "3.22.5"
   }
 }

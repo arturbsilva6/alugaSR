@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Gestão restrita de anúncios próprios ou da imobiliária.">
+<title>Painel do anunciante — AlugaSR</title>
+<link rel="stylesheet" href="./styles/main.css">
+<script type="module" src="./scripts/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header portal-header">
+  <div class="container site-header__inner">
+    <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+      <span class="brand-name">AlugaSR</span>
+      <span class="site-brand__subline">Aluguéis em São Roque · demonstração</span>
+    </a>
+    <nav class="site-nav portal-nav" aria-label="Navegação principal"><ul class="site-nav__list"><li><a class="site-nav__link" href="./index.html">Início</a></li>
+<li><a class="site-nav__link" href="./imoveis.html">Imóveis</a></li>
+<li><a class="site-nav__link" href="./como-anunciar.html">Como anunciar</a></li></ul></nav>
+    <a class="button button--secondary" href="./parceiro.html" aria-current="page">Área do anunciante</a>
+  </div>
+</header>
+<div class="demo-ribbon"><div class="container"><span aria-hidden="true">●</span> SIMULAÇÃO ACADÊMICA · IMÓVEIS, PREÇOS E CONTATOS FICTÍCIOS</div></div>
+<main class="main-shell container" id="conteudo" data-page="partner-live">
+<nav class="breadcrumbs" aria-label="Trilha de navegação"><a href="./index.html">Início</a><span aria-hidden="true">›</span><span aria-current="page">Painel do anunciante</span></nav>
+<div id="api-required" class="notice notice--error" role="alert" hidden><strong>API indisponível.</strong> Esta página exige o servidor da aplicação (<code>npm start</code>) com banco PostgreSQL. A prévia estática (<code>npm run preview</code>) não oferece login.</div>
+<div id="auth-box" class="notice" hidden><strong>Acesso restrito.</strong> <a href="./entrar.html?voltar=parceiro.html">Entre com uma conta de parceiro</a> para gerenciar anúncios. Para conhecer o fluxo sem login, veja o <a href="./painel.html">painel de simulação</a>.</div>
+<section id="panel" class="stack stack--lg" hidden aria-labelledby="panel-title">
+<div class="toolbar"><div><p class="eyebrow">ÁREA RESTRITA</p><h1 id="panel-title">Painel do anunciante</h1><p class="text-muted">Conectado como <strong id="panel-user"></strong>.</p></div>
+<div class="field"><label class="field__label" for="ctx-select">Anunciar como</label><select class="field__control" id="ctx-select"></select></div>
+<button class="button button--secondary" id="panel-logout" type="button">Sair</button></div>
+<p id="eligibility" class="notice" role="note" hidden></p>
+<div class="notice" role="note"><strong>Publicação somente após moderação.</strong> Enviar para análise não publica o anúncio. Endereço completo é privado e nunca aparece na vitrine. Use apenas dados e fotos sintéticos nesta fase.</div>
+<p id="panel-feedback" class="status-message" role="status" aria-live="polite" hidden></p>
+<div id="panel-work" class="stack stack--lg">
+<div class="partner-kpis" aria-label="Resumo dos anúncios"><div class="card"><strong id="kpi-all">0</strong><small>Anúncios</small></div><div class="card"><strong id="kpi-drafts">0</strong><small>Rascunhos</small></div><div class="card"><strong id="kpi-pending">0</strong><small>Em análise</small></div><div class="card"><strong id="kpi-published">0</strong><small>Publicados</small></div></div>
+<section class="card stack" aria-labelledby="list-title"><div class="toolbar"><h2 id="list-title">Meus anúncios</h2><button class="button button--primary" id="pf-new" type="button">Novo anúncio</button></div>
+<div class="table-scroll" role="region" aria-label="Lista de anúncios" tabindex="0"><table class="partner-table"><thead><tr><th scope="col">Anúncio</th><th scope="col">Status</th><th scope="col">Aluguel</th><th scope="col">Ações</th></tr></thead><tbody id="props-rows"></tbody></table></div></section>
+<section id="editor" class="card stack" hidden aria-labelledby="editor-title">
+<h2 id="editor-title" tabindex="-1">Novo anúncio</h2>
+<form id="prop-form" class="stack" novalidate>
+<div class="form-grid">
+<div class="field field--wide"><label class="field__label" for="pf-title">Título</label><input class="field__control" id="pf-title" data-field="title" maxlength="150" aria-describedby="err-title"><small class="field__error" id="err-title" data-for="title" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-propertyTypeId">Tipo de imóvel</label><select class="field__control" id="pf-propertyTypeId" data-field="propertyTypeId" aria-describedby="err-type"></select><small class="field__error" id="err-type" data-for="propertyTypeId" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-rent">Aluguel mensal (R$)</label><input class="field__control" id="pf-rent" data-field="rent" inputmode="decimal" placeholder="1.850,00" aria-describedby="err-rent"><small class="field__error" id="err-rent" data-for="rent" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-condominium">Condomínio mensal (R$)</label><input class="field__control" id="pf-condominium" data-field="condominium" inputmode="decimal" placeholder="Vazio = a confirmar" aria-describedby="err-condo"><small class="field__error" id="err-condo" data-for="condominium" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-iptu">IPTU mensal (R$)</label><input class="field__control" id="pf-iptu" data-field="iptu" inputmode="decimal" placeholder="Vazio = a confirmar" aria-describedby="err-iptu"><small class="field__error" id="err-iptu" data-for="iptu" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-bedrooms">Quartos</label><input class="field__control" id="pf-bedrooms" data-field="bedrooms" inputmode="numeric" aria-describedby="err-bedrooms"><small class="field__error" id="err-bedrooms" data-for="bedrooms" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-bathrooms">Banheiros</label><input class="field__control" id="pf-bathrooms" data-field="bathrooms" inputmode="numeric" aria-describedby="err-bathrooms"><small class="field__error" id="err-bathrooms" data-for="bathrooms" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-parkingSpaces">Vagas</label><input class="field__control" id="pf-parkingSpaces" data-field="parkingSpaces" inputmode="numeric" aria-describedby="err-parking"><small class="field__error" id="err-parking" data-for="parkingSpaces" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-areaM2">Área (m²)</label><input class="field__control" id="pf-areaM2" data-field="areaM2" inputmode="decimal" aria-describedby="err-area"><small class="field__error" id="err-area" data-for="areaM2" hidden></small></div>
+<div class="field field--wide"><label class="field__label" for="pf-description">Descrição</label><textarea class="field__control" id="pf-description" data-field="description" maxlength="5000" rows="5" aria-describedby="err-description"></textarea><small class="field__error" id="err-description" data-for="description" hidden></small></div>
+</div>
+<p class="status-message cost-preview"><strong>Total mensal estimado:</strong> <span id="pf-total">A confirmar</span><br><small>Só é somado quando aluguel, condomínio e IPTU mensais são conhecidos.</small></p>
+<fieldset class="card stack"><legend>Localização (privada)</legend>
+<p class="form-hint">Somente o bairro aparece publicamente. Rua, número, complemento e CEP ficam restritos ao titular e à moderação.</p>
+<div class="form-grid">
+<div class="field"><label class="field__label" for="pf-neighborhoodId">Bairro (São Roque/SP)</label><select class="field__control" id="pf-neighborhoodId" data-field="address.neighborhoodId" aria-describedby="err-hood"></select><small class="field__error" id="err-hood" data-for="address.neighborhoodId" hidden></small></div>
+<div class="field"><label class="field__label" for="pf-street">Logradouro</label><input class="field__control" id="pf-street" data-field="address.street" maxlength="180"></div>
+<div class="field"><label class="field__label" for="pf-number">Número</label><input class="field__control" id="pf-number" data-field="address.number" maxlength="30"></div>
+<div class="field"><label class="field__label" for="pf-complement">Complemento</label><input class="field__control" id="pf-complement" data-field="address.complement" maxlength="100"></div>
+<div class="field"><label class="field__label" for="pf-cep">CEP</label><input class="field__control" id="pf-cep" data-field="address.cep" maxlength="9" inputmode="numeric" placeholder="00000-000" aria-describedby="err-cep"><small class="field__error" id="err-cep" data-for="address.cep" hidden></small></div>
+</div></fieldset>
+<fieldset class="card"><legend>Características</legend><div id="pf-features" class="checks"></div></fieldset>
+<div class="partner-form__actions"><button class="button button--primary" id="pf-save" type="submit">Salvar rascunho</button><button class="button button--secondary" id="pf-cancel" type="button">Fechar</button></div>
+</form>
+<section id="photos" class="stack" hidden aria-labelledby="photos-title"><h3 id="photos-title">Fotos</h3>
+<p class="form-hint">JPEG, PNG ou WebP, até 5 MB e no mínimo 200 px. As imagens são reprocessadas no servidor e os metadados (incluindo localização GPS) são removidos. Não envie fotos com pessoas, placas ou documentos.</p>
+<div class="field"><label class="field__label" for="photo-input">Adicionar fotos</label><input class="field__control" id="photo-input" type="file" accept="image/jpeg,image/png,image/webp" multiple></div>
+<p id="photo-status" class="status-message" role="status" aria-live="polite" hidden></p>
+<ul id="photo-list" class="photo-list"></ul></section>
+<section id="history" class="stack" hidden aria-labelledby="history-title"><h3 id="history-title">Histórico</h3><ol id="history-list" class="history-list"></ol></section>
+</section>
+</div></section></main>
+<footer class="site-footer"><div class="container site-footer__inner">
+  <p><small>AlugaSR · São Roque/SP · protótipo com dados artificiais · <span id="ano"></span></small></p>
+  <nav class="site-footer__links" aria-label="Links de rodapé">
+    <a href="./index.html">Início</a><a href="./imoveis.html">Explorar imóveis</a><a href="./como-anunciar.html">Como anunciar</a>
+    <a href="./seguranca.html">Segurança e privacidade</a><a href="./design-system.html">Design System</a><a href="./componentes.html">Componentes</a>
+  </nav>
+</div></footer>
+</body></html>

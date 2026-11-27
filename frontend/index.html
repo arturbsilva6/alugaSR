@@ -1,33 +1,63 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="Estrutura inicial de desenvolvimento do AlugaSR, projeto acadêmico em São Roque.">
-  <title>AlugaSR — Em desenvolvimento</title>
-  <link rel="stylesheet" href="./styles/main.css">
-  <script type="module" src="./scripts/main.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Veja a demonstração acadêmica de imóveis para aluguel em São Roque/SP. Anúncios fictícios.">
+<title>Início — AlugaSR (demonstração)</title>
+<link rel="stylesheet" href="./styles/main.css">
+<script type="module" src="./scripts/main.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
-  <header class="site-header" aria-label="Cabeçalho">
-    <div class="container">
-      <strong class="brand-name">AlugaSR</strong>
-      <span class="brand-note">Projeto acadêmico • logo original pendente</span>
-    </div>
-  </header>
-  <main id="conteudo" class="container">
-    <section class="panel" aria-labelledby="page-title">
-      <p class="eyebrow">São Roque • SP</p>
-      <h1 id="page-title">O AlugaSR está em desenvolvimento</h1>
-      <p>Esta página serve apenas para validar a estrutura do frontend. Ainda não há anúncios, pesquisa, login ou serviços disponíveis.</p>
-      <p>Os recursos do MVP serão implementados em entregas posteriores, com testes, revisão de segurança e dados sintéticos.</p>
-      <div class="panel__actions">
-        <a class="button button--primary" href="./design-system.html">Ver biblioteca visual (demo)</a>
-      </div>
-    </section>
-  </main>
-  <footer class="container"><small>AlugaSR — estrutura acadêmica <span id="ano"></span></small></footer>
-</body>
-</html>
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header portal-header">
+  <div class="container site-header__inner">
+    <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+      <span class="brand-name">AlugaSR</span>
+      <span class="site-brand__subline">Aluguéis em São Roque · demonstração</span>
+    </a>
+    <nav class="site-nav portal-nav" aria-label="Navegação principal"><ul class="site-nav__list"><li><a class="site-nav__link" href="./index.html" aria-current="page">Início</a></li>
+<li><a class="site-nav__link" href="./imoveis.html">Imóveis</a></li>
+<li><a class="site-nav__link" href="./como-anunciar.html">Como anunciar</a></li></ul></nav>
+    <a class="button button--secondary" href="./parceiro.html">Área do anunciante</a>
+  </div>
+</header>
+<div class="demo-ribbon"><div class="container"><span aria-hidden="true">●</span> SIMULAÇÃO ACADÊMICA · IMÓVEIS, PREÇOS E CONTATOS FICTÍCIOS</div></div>
+<main class="main-shell container" id="conteudo" data-page="home">
+<section class="hero-portal" aria-labelledby="hero-heading">
+  <div class="hero-portal__copy"><p class="eyebrow">ALUGUÉIS EM SÃO ROQUE</p>
+  <h1 id="hero-heading">Encontre seu próximo <strong>lar em São Roque.</strong></h1>
+  <p class="page-lead text-muted">Explore como será a busca de imóveis para aluguel mensal em um único lugar.</p></div>
+  <div class="hero-portal__visual"><img src="./assets/fotos/casa-entardecer.webp" width="1600" height="1066" alt="Foto ilustrativa de casa ao entardecer (banco de imagens) — não é um imóvel disponível" fetchpriority="high"><span class="visual-label">Foto ilustrativa</span></div>
+</section>
+<form class="search-strip" action="./imoveis.html" method="get" aria-label="Busca de imóveis de demonstração">
+  <div class="field"><label class="field__label" for="home-regiao">Bairro / região</label>
+    <select class="field__control" name="regiao" id="home-regiao"><option value="">Todas as regiões</option><option value="centro">Centro (exemplo)</option><option value="outras">Outras regiões ilustrativas</option></select></div>
+  <div class="field"><label class="field__label" for="home-tipo">Tipo de imóvel</label>
+    <select class="field__control" name="tipo" id="home-tipo"><option value="">Todos os tipos</option><option value="casa">Casa</option><option value="apartamento">Apartamento</option><option value="sobrado">Sobrado</option></select></div>
+  <div class="field"><label class="field__label" for="home-preco">Aluguel mensal máximo</label>
+    <select class="field__control" name="ate" id="home-preco"><option value="">Qualquer valor</option><option value="1500">Até R$ 1.500</option><option value="2000">Até R$ 2.000</option><option value="3000">Até R$ 3.000</option><option value="4000">Até R$ 4.000</option></select></div>
+  <button class="button button--primary" type="submit">Buscar imóveis <span aria-hidden="true">⌕</span></button>
+</form>
+<section class="page-section" aria-labelledby="explore">
+  <div class="section-titlebar"><div><h2 id="explore">Explore do seu jeito</h2><p>Comece com um tipo de imóvel — todos os resultados são exemplos.</p></div></div>
+  <nav class="quick-links" aria-label="Buscar por tipo"><a class="quick-link" href="./imoveis.html?tipo=casa">Casas</a><a class="quick-link" href="./imoveis.html?tipo=apartamento">Apartamentos</a><a class="quick-link" href="./imoveis.html">Todos os imóveis</a></nav>
+</section>
+<section class="page-section" aria-labelledby="destaques">
+  <div class="section-titlebar"><div><h2 id="destaques">Imóveis em destaque</h2><p>Fotos ilustrativas de banco de imagens (não correspondem aos imóveis). Preços e informações fictícios.</p></div><a href="./imoveis.html">Ver todos os exemplos</a></div>
+  <div id="featured-grid" class="property-grid" aria-live="polite"><p>Carregando exemplos ilustrativos...</p></div>
+</section>
+<section class="page-section"><div class="support-band"><div><h2>Você anuncia um imóvel em São Roque?</h2><p>Conheça como será o cadastro com revisão antes da publicação e transparência dos custos mensais.</p></div><a class="button button--primary" href="./como-anunciar.html">Saiba como anunciar</a></div></section>
+<section class="page-section" aria-labelledby="passos"><div class="section-titlebar"><div><h2 id="passos">Como a plataforma foi planejada</h2><p>Três passos claros, sem pagamento ou contrato pelo AlugaSR.</p></div></div>
+<div class="info-grid"><article class="card"><span class="eyebrow">01 · DESCUBRA</span><h3>Busque sem cadastro</h3><p>Compare aluguel mensal, tipo, dormitórios e região aproximada.</p></article>
+<article class="card"><span class="eyebrow">02 · COMPARE</span><h3>Entenda os custos</h3><p>Quando um encargo é desconhecido, o total fica “A confirmar”.</p></article>
+<article class="card"><span class="eyebrow">03 · CONVERSE</span><h3>Contato em etapa futura</h3><p>Mensagens exigirão conta e autorização reais. Ainda não estão ativas.</p></article></div></section></main>
+<footer class="site-footer"><div class="container site-footer__inner">
+  <p><small>AlugaSR · São Roque/SP · protótipo com dados artificiais · <span id="ano"></span></small></p>
+  <nav class="site-footer__links" aria-label="Links de rodapé">
+    <a href="./index.html">Início</a><a href="./imoveis.html">Explorar imóveis</a><a href="./como-anunciar.html">Como anunciar</a>
+    <a href="./seguranca.html">Segurança e privacidade</a><a href="./design-system.html">Design System</a><a href="./componentes.html">Componentes</a>
+  </nav>
+</div></footer>
+</body></html>

@@ -1,9 +1,299 @@
-// MVP-001: somente configuração, sem models ou migrations.
-// Entidades de domínio serão implementadas no MVP-007.
+// AlugaSR — MVP-007: subconjunto do modelo de referência de 31 tabelas
+// (Documentação Mestre, seções 30–32; ADR-001, ADR-002, ADR-004, ADR-005, ADR-009).
+//
+// Implementadas neste ciclo (15 tabelas): usuarios, contas_autenticacao, sessoes,
+// papeis_usuario, anunciantes, imobiliarias, membros_imobiliaria, bairros,
+// enderecos, tipos_imovel, imoveis, fotos_imoveis, caracteristicas,
+// imovel_caracteristicas e logs_auditoria.
+//
+// Restrições que o Prisma não expressa (CHECK, índices únicos parciais,
+// unicidade por lower(email), bloqueio de UPDATE/DELETE em auditoria) estão no
+// SQL complementar da migration correspondente em prisma/migrations/.
+// Estados são VARCHAR + CHECK versionado (seção 32.3), não enums nativos.
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Usuario {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome              String    @db.VarChar(120)
+  email             String    @db.VarChar(254)
+  telefone          String?   @db.VarChar(20)
+  status            String    @default("pendente") @db.VarChar(20)
+  emailVerificadoEm DateTime? @map("email_verificado_em") @db.Timestamptz(3)
+  criadoEm          DateTime  @default(now()) @map("criado_em") @db.Timestamptz(3)
+  atualizadoEm      DateTime  @default(now()) @updatedAt @map("atualizado_em") @db.Timestamptz(3)
+  excluidoEm        DateTime? @map("excluido_em") @db.Timestamptz(3)
+
+  contas              ContaAutenticacao[]
+  sessoes             Sessao[]
+  papeis              PapelUsuario[]      @relation("papelDoUsuario")
+  papeisAtribuidos    PapelUsuario[]      @relation("papelAtribuidoPor")
+  anunciante          Anunciante?
+  imobiliariasCriadas Imobiliaria[]
+  membros             MembroImobiliaria[] @relation("membroUsuario")
+  convitesEnviados    MembroImobiliaria[] @relation("membroConvidadoPor")
+  imoveisCriados      Imovel[]            @relation("imovelCriadoPor")
+  imoveisAtualizados  Imovel[]            @relation("imovelAtualizadoPor")
+  logsAuditoria       LogAuditoria[]
+
+  @@map("usuarios")
+}
+
+model ContaAutenticacao {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuarioId         String   @map("usuario_id") @db.Uuid
+  provedor          String   @db.VarChar(30)
+  provedorUsuarioId String?  @map("provedor_usuario_id") @db.VarChar(255)
+  senhaHash         String?  @map("senha_hash")
+  criadoEm          DateTime @default(now()) @map("criado_em") @db.Timestamptz(3)
+  atualizadoEm      DateTime @default(now()) @updatedAt @map("atualizado_em") @db.Timestamptz(3)
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@unique([usuarioId, provedor])
+  @@map("contas_autenticacao")
+}
+
+model Sessao {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuarioId      String    @map("usuario_id") @db.Uuid
+  tokenHash      String    @unique @map("token_hash")
+  expiraEm       DateTime  @map("expira_em") @db.Timestamptz(3)
+  criadoEm       DateTime  @default(now()) @map("criado_em") @db.Timestamptz(3)
+  revogadaEm     DateTime? @map("revogada_em") @db.Timestamptz(3)
+  ultimoAcessoEm DateTime? @map("ultimo_acesso_em") @db.Timestamptz(3)
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@index([usuarioId, expiraEm])
+  @@map("sessoes")
+}
+
+model PapelUsuario {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuarioId    String   @map("usuario_id") @db.Uuid
+  papel        String   @db.VarChar(30)
+  atribuidoPor String?  @map("atribuido_por") @db.Uuid
+  atribuidoEm  DateTime @default(now()) @map("atribuido_em") @db.Timestamptz(3)
+
+  usuario    Usuario  @relation("papelDoUsuario", fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  atribuidor Usuario? @relation("papelAtribuidoPor", fields: [atribuidoPor], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@unique([usuarioId, papel])
+  @@map("papeis_usuario")
+}
+
+// Anunciante individual (proprietário pessoa física). ADR-001: não possui tipo "imobiliaria".
+model Anunciante {
+  id                String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  usuarioId         String   @unique @map("usuario_id") @db.Uuid
+  nomeExibicao      String   @map("nome_exibicao") @db.VarChar(150)
+  descricao         String?
+  statusVerificacao String   @default("pendente") @map("status_verificacao") @db.VarChar(25)
+  criadoEm          DateTime @default(now()) @map("criado_em") @db.Timestamptz(3)
+  atualizadoEm      DateTime @default(now()) @updatedAt @map("atualizado_em") @db.Timestamptz(3)
+
+  usuario Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  imoveis Imovel[]
+
+  @@map("anunciantes")
+}
+
+// Imobiliária como entidade independente (ADR-001 / MD-01, opção adotada na seção 30).
+model Imobiliaria {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nomeComercial      String    @map("nome_comercial") @db.VarChar(150)
+  razaoSocial        String?   @map("razao_social") @db.VarChar(180)
+  cnpj               String?   @db.VarChar(14)
+  creciPj            String?   @map("creci_pj") @db.VarChar(40)
+  descricao          String?
+  status             String    @default("pendente") @db.VarChar(25)
+  criadoPorUsuarioId String    @map("criado_por_usuario_id") @db.Uuid
+  criadoEm           DateTime  @default(now()) @map("criado_em") @db.Timestamptz(3)
+  atualizadoEm       DateTime  @default(now()) @updatedAt @map("atualizado_em") @db.Timestamptz(3)
+  excluidoEm         DateTime? @map("excluido_em") @db.Timestamptz(3)
+
+  criadoPor Usuario             @relation(fields: [criadoPorUsuarioId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  membros   MembroImobiliaria[]
+  imoveis   Imovel[]
+
+  @@map("imobiliarias")
+}
+
+// REV-02: uma linha vigente por par imobiliária/usuário; trilha em logs_auditoria.
+model MembroImobiliaria {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  imobiliariaId String    @map("imobiliaria_id") @db.Uuid
+  usuarioId     String    @map("usuario_id") @db.Uuid
+  papel         String    @db.VarChar(25)
+  status        String    @default("convidado") @db.VarChar(25)
+  convidadoPor  String?   @map("convidado_por") @db.Uuid
+  criadoEm      DateTime  @default(now()) @map("criado_em") @db.Timestamptz(3)
+  aceitoEm      DateTime? @map("aceito_em") @db.Timestamptz(3)
+  removidoEm    DateTime? @map("removido_em") @db.Timestamptz(3)
+
+  imobiliaria Imobiliaria @relation(fields: [imobiliariaId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  usuario     Usuario     @relation("membroUsuario", fields: [usuarioId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  convidante  Usuario?    @relation("membroConvidadoPor", fields: [convidadoPor], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@unique([imobiliariaId, usuarioId])
+  @@index([usuarioId, status])
+  @@map("membros_imobiliaria")
+}
+
+model Bairro {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome             String   @db.VarChar(150)
+  slug             String   @unique @db.VarChar(160)
+  codigoReferencia String?  @map("codigo_referencia") @db.VarChar(80)
+  fonteDados       String?  @map("fonte_dados")
+  ativo            Boolean  @default(true)
+  criadoEm         DateTime @default(now()) @map("criado_em") @db.Timestamptz(3)
+
+  enderecos Endereco[]
+
+  @@map("bairros")
+}
+
+// Endereço completo é dado protegido: nunca exposto em respostas públicas.
+model Endereco {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  bairroId    String   @map("bairro_id") @db.Uuid
+  cep         String?  @db.VarChar(9)
+  logradouro  String?  @db.VarChar(180)
+  numero      String?  @db.VarChar(30)
+  complemento String?  @db.VarChar(100)
+  municipio   String   @default("São Roque") @db.VarChar(80)
+  uf          String   @default("SP") @db.Char(2)
+  latitude    Decimal? @db.Decimal(10, 7)
+  longitude   Decimal? @db.Decimal(10, 7)
+  criadoEm    DateTime @default(now()) @map("criado_em") @db.Timestamptz(3)
+
+  bairro  Bairro   @relation(fields: [bairroId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  imoveis Imovel[]
+
+  @@index([bairroId, id])
+  @@map("enderecos")
+}
+
+model TipoImovel {
+  id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome  String  @db.VarChar(80)
+  slug  String  @unique @db.VarChar(90)
+  ativo Boolean @default(true)
+
+  imoveis Imovel[]
+
+  @@map("tipos_imovel")
+}
+
+// ADR-002: exatamente um titular (anunciante individual XOR imobiliária) — CHECK no SQL.
+// REV-01: campos de conteúdo podem ser nulos no rascunho; exigidos a partir de em_analise.
+model Imovel {
+  id                     String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  anuncianteId           String?   @map("anunciante_id") @db.Uuid
+  imobiliariaId          String?   @map("imobiliaria_id") @db.Uuid
+  criadoPorUsuarioId     String    @map("criado_por_usuario_id") @db.Uuid
+  atualizadoPorUsuarioId String?   @map("atualizado_por_usuario_id") @db.Uuid
+  enderecoId             String?   @map("endereco_id") @db.Uuid
+  tipoImovelId           String?   @map("tipo_imovel_id") @db.Uuid
+  titulo                 String?   @db.VarChar(150)
+  descricao              String?
+  valorAluguel           Decimal?  @map("valor_aluguel") @db.Decimal(12, 2)
+  valorCondominio        Decimal?  @map("valor_condominio") @db.Decimal(12, 2)
+  valorIptu              Decimal?  @map("valor_iptu") @db.Decimal(12, 2)
+  areaM2                 Decimal?  @map("area_m2") @db.Decimal(10, 2)
+  quartos                Int?
+  banheiros              Int?
+  vagasGaragem           Int?      @map("vagas_garagem")
+  status                 String    @default("rascunho") @db.VarChar(25)
+  revisao                Int       @default(1)
+  publicadoEm            DateTime? @map("publicado_em") @db.Timestamptz(3)
+  arquivadoEm            DateTime? @map("arquivado_em") @db.Timestamptz(3)
+  criadoEm               DateTime  @default(now()) @map("criado_em") @db.Timestamptz(3)
+  atualizadoEm           DateTime  @default(now()) @updatedAt @map("atualizado_em") @db.Timestamptz(3)
+
+  anunciante      Anunciante?            @relation(fields: [anuncianteId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  imobiliaria     Imobiliaria?           @relation(fields: [imobiliariaId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  criadoPor       Usuario                @relation("imovelCriadoPor", fields: [criadoPorUsuarioId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  atualizadoPor   Usuario?               @relation("imovelAtualizadoPor", fields: [atualizadoPorUsuarioId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  endereco        Endereco?              @relation(fields: [enderecoId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  tipoImovel      TipoImovel?            @relation(fields: [tipoImovelId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  fotos           FotoImovel[]
+  caracteristicas ImovelCaracteristica[]
+
+  @@index([status, publicadoEm(sort: Desc), id])
+  @@index([status, tipoImovelId, valorAluguel, id])
+  @@index([anuncianteId, status, atualizadoEm(sort: Desc)])
+  @@index([imobiliariaId, status, atualizadoEm(sort: Desc)])
+  @@index([enderecoId])
+  @@map("imoveis")
+}
+
+// REV-03/REV-05: estado de processamento; capa única entre aprovadas ativas (índice parcial SQL).
+model FotoImovel {
+  id                  String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  imovelId            String    @map("imovel_id") @db.Uuid
+  chaveArmazenamento  String    @unique @map("chave_armazenamento")
+  ordem               Int       @default(0)
+  principal           Boolean   @default(false)
+  textoAlternativo    String?   @map("texto_alternativo") @db.VarChar(250)
+  statusProcessamento String    @default("pendente") @map("status_processamento") @db.VarChar(20)
+  mimeTypeValidado    String?   @map("mime_type_validado") @db.VarChar(100)
+  tamanhoBytes        BigInt?   @map("tamanho_bytes")
+  hashConteudo        String?   @map("hash_conteudo") @db.VarChar(64)
+  criadoEm            DateTime  @default(now()) @map("criado_em") @db.Timestamptz(3)
+  excluidoEm          DateTime? @map("excluido_em") @db.Timestamptz(3)
+
+  imovel Imovel @relation(fields: [imovelId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@index([imovelId, ordem])
+  @@map("fotos_imoveis")
+}
+
+model Caracteristica {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome      String  @db.VarChar(100)
+  slug      String  @unique @db.VarChar(120)
+  categoria String? @db.VarChar(60)
+  ativo     Boolean @default(true)
+
+  imoveis ImovelCaracteristica[]
+
+  @@map("caracteristicas")
+}
+
+model ImovelCaracteristica {
+  imovelId         String @map("imovel_id") @db.Uuid
+  caracteristicaId String @map("caracteristica_id") @db.Uuid
+
+  imovel         Imovel         @relation(fields: [imovelId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  caracteristica Caracteristica @relation(fields: [caracteristicaId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+
+  @@id([imovelId, caracteristicaId])
+  @@index([caracteristicaId])
+  @@map("imovel_caracteristicas")
+}
+
+// Auditoria append-only (trigger SQL bloqueia UPDATE/DELETE). Metadados minimizados.
+model LogAuditoria {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  atorId      String?  @map("ator_id") @db.Uuid
+  acao        String   @db.VarChar(80)
+  tipoRecurso String   @map("tipo_recurso") @db.VarChar(80)
+  recursoId   String?  @map("recurso_id") @db.Uuid
+  metadados   Json?
+  ocorridoEm  DateTime @default(now()) @map("ocorrido_em") @db.Timestamptz(3)
+
+  ator Usuario? @relation(fields: [atorId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([ocorridoEm, acao])
+  @@index([tipoRecurso, recursoId, ocorridoEm])
+  @@map("logs_auditoria")
 }

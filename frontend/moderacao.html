@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Fila interna de análise de anúncios (moderação).">
+<title>Moderação — AlugaSR</title>
+<link rel="stylesheet" href="./styles/main.css">
+<script type="module" src="./scripts/main.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header portal-header">
+  <div class="container site-header__inner">
+    <a class="site-brand" href="./index.html" aria-label="AlugaSR, início">
+      <span class="brand-name">AlugaSR</span>
+      <span class="site-brand__subline">Aluguéis em São Roque · demonstração</span>
+    </a>
+    <nav class="site-nav portal-nav" aria-label="Navegação principal"><ul class="site-nav__list"><li><a class="site-nav__link" href="./index.html">Início</a></li>
+<li><a class="site-nav__link" href="./imoveis.html">Imóveis</a></li>
+<li><a class="site-nav__link" href="./como-anunciar.html">Como anunciar</a></li></ul></nav>
+    <a class="button button--secondary" href="./parceiro.html">Área do anunciante</a>
+  </div>
+</header>
+<div class="demo-ribbon"><div class="container"><span aria-hidden="true">●</span> SIMULAÇÃO ACADÊMICA · IMÓVEIS, PREÇOS E CONTATOS FICTÍCIOS</div></div>
+<main class="main-shell container" id="conteudo" data-page="moderation">
+<nav class="breadcrumbs" aria-label="Trilha de navegação"><a href="./index.html">Início</a><span aria-hidden="true">›</span><span aria-current="page">Moderação</span></nav>
+<div id="api-required" class="notice notice--error" role="alert" hidden><strong>API indisponível.</strong> Esta página exige o servidor da aplicação (<code>npm start</code>) com banco PostgreSQL. A prévia estática (<code>npm run preview</code>) não oferece login.</div>
+<div id="auth-box" class="notice" hidden><strong>Área interna.</strong> <a href="./entrar.html?voltar=moderacao.html">Entre com uma conta de moderação</a>.</div>
+<p id="mod-feedback" class="status-message" role="status" aria-live="polite" hidden></p>
+<section id="mod-panel" class="stack stack--lg" hidden aria-labelledby="mod-title">
+<div><p class="eyebrow">ÁREA INTERNA</p><h1 id="mod-title">Fila de moderação</h1><p id="mod-count" class="text-muted"></p>
+<p class="form-hint">Você não pode decidir sobre anúncios dos quais é titular ou membro da imobiliária. Toda decisão é registrada em auditoria.</p></div>
+<div class="card table-scroll" role="region" aria-label="Anúncios em análise" tabindex="0"><table class="partner-table"><thead><tr><th scope="col">Anúncio</th><th scope="col">Titular</th><th scope="col">Aluguel</th><th scope="col">Ação</th></tr></thead><tbody id="mod-rows"></tbody></table></div>
+<section id="mod-detail" class="card stack" hidden aria-labelledby="mod-detail-title">
+<h2 id="mod-detail-title" tabindex="-1">Análise</h2>
+<p id="mod-conflict" class="notice notice--error" hidden>Conflito de interesse: decisão bloqueada para sua conta.</p>
+<dl id="mod-facts" class="facts"></dl>
+<div id="mod-photos" class="mod-photos" aria-label="Fotos enviadas"></div>
+<div class="field"><label class="field__label" for="mod-reason">Justificativa (obrigatória para rejeitar ou suspender)</label><textarea class="field__control" id="mod-reason" maxlength="1000" rows="3"></textarea></div>
+<div class="partner-form__actions"><button class="button button--primary" type="button" data-decision="approve">Aprovar e publicar</button><button class="button button--secondary" type="button" data-decision="reject">Rejeitar</button><button class="button button--secondary" type="button" data-decision="suspend">Suspender</button></div>
+</section></section></main>
+<footer class="site-footer"><div class="container site-footer__inner">
+  <p><small>AlugaSR · São Roque/SP · protótipo com dados artificiais · <span id="ano"></span></small></p>
+  <nav class="site-footer__links" aria-label="Links de rodapé">
+    <a href="./index.html">Início</a><a href="./imoveis.html">Explorar imóveis</a><a href="./como-anunciar.html">Como anunciar</a>
+    <a href="./seguranca.html">Segurança e privacidade</a><a href="./design-system.html">Design System</a><a href="./componentes.html">Componentes</a>
+  </nav>
+</div></footer>
+</body></html>
